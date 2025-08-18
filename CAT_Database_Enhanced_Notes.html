@@ -1,0 +1,537 @@
+<!-- ================= CAT DATABASE ENHANCED NOTES ================= -->
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CAT Database Notes – Microsoft Access • Grade 11 • Interactive Learning</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- MathJax for LaTeX support -->
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .toc-active { font-weight: 700; }
+    details[open] summary .chev { transform: rotate(90deg); }
+    .chev { transition: transform .2s ease; }
+  </style>
+</head>
+<body class="h-full bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-100">
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-40 backdrop-blur border-b border-slate-200/60 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+      <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight">📊 CAT Database Notes</h1>
+      <div class="ml-auto flex items-center gap-2">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="px-3 py-1 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm">Toggle Theme</button>
+        <!-- Search (client-side highlight) -->
+        <label class="relative hidden sm:block">
+          <input id="searchInput" type="search" placeholder="Search notes…" class="pl-9 pr-3 py-1 rounded-xl border text-sm bg-white/70 dark:bg-slate-800/70 border-slate-300 dark:border-slate-700 outline-none w-56" />
+          <svg class="absolute left-2 top-1.5 h-4 w-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout: Sidebar ToC + Content -->
+  <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-6">
+    <!-- ToC -->
+    <aside class="lg:sticky lg:top-20 lg:h-[calc(100dvh-6rem)] lg:overflow-auto bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 hidden lg:block">
+      <h2 class="text-sm uppercase tracking-wider font-bold mb-2 opacity-70">Contents</h2>
+      <nav id="toc" class="space-y-1 text-sm"></nav>
+    </aside>
+
+    <!-- Content -->
+    <article id="content" class="prose prose-slate dark:prose-invert max-w-none prose-headings:scroll-mt-24">
+      
+      <!-- Hero Title -->
+      <section class="rounded-2xl p-6 bg-gradient-to-br from-indigo-50 to-cyan-50 dark:from-indigo-900/30 dark:to-cyan-900/20 border border-slate-200 dark:border-slate-800">
+        <h1 class="!mt-0">Microsoft Access Database Concepts</h1>
+        <p class="!mt-2">Comprehensive guide to database management using Microsoft Access. Covers all Grade 11 CAT curriculum requirements including tables, queries, forms, reports, and advanced database operations.</p>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+          <span class="px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-800/40">Microsoft Access</span>
+          <span class="px-2 py-1 rounded-full bg-cyan-100 dark:bg-cyan-800/40">Grade 11 CAT</span>
+          <span class="px-2 py-1 rounded-full bg-green-100 dark:bg-green-800/40">Database Design</span>
+        </div>
+      </section>
+
+      <!-- Key Callouts -->
+      <section>
+        <h2>Essential Concepts</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl border-l-4 border-indigo-500 bg-indigo-50/60 dark:bg-indigo-900/20">
+            <p class="m-0"><strong>💡 Core Principle:</strong> A database is an organized collection of related data stored electronically for efficient retrieval and management.</p>
+          </div>
+          <div class="p-4 rounded-xl border-l-4 border-amber-500 bg-amber-50/60 dark:bg-amber-900/20">
+            <p class="m-0"><strong>⚠️ Important:</strong> Always plan your database structure before creating tables. Poor design leads to data redundancy and inefficiency.</p>
+          </div>
+          <div class="p-4 rounded-xl border-l-4 border-emerald-500 bg-emerald-50/60 dark:bg-emerald-900/20">
+            <p class="m-0"><strong>✅ Best Practice:</strong> Use meaningful field names, appropriate data types, and always include primary keys for data integrity.</p>
+          </div>
+          <div class="p-4 rounded-xl border-l-4 border-rose-500 bg-rose-50/60 dark:bg-rose-900/20">
+            <p class="m-0"><strong>📌 Remember:</strong> Relationships connect related data across tables, reducing redundancy and ensuring data consistency.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Database Objects -->
+      <section>
+        <h2>Database Objects</h2>
+        <p>Microsoft Access consists of four main objects that work together to create a complete database system.</p>
+        
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Tables - Data Storage Foundation</span></summary>
+          <div class="px-4 py-3">
+            <p><strong>Purpose:</strong> Store data in rows (records) and columns (fields)</p>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Each row represents one record (e.g., one student)</li>
+              <li>Each column represents one field (e.g., student name, grade)</li>
+              <li>Primary key uniquely identifies each record</li>
+              <li>Data types determine what can be stored (text, number, date, etc.)</li>
+            </ul>
+            <div class="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <strong>Example:</strong> Students table with fields: StudentID (Primary Key), FirstName, LastName, Grade, Email
+            </div>
+          </div>
+        </details>
+
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Queries - Data Retrieval Tools</span></summary>
+          <div class="px-4 py-3">
+            <p><strong>Purpose:</strong> Ask questions about your data and retrieve specific information</p>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Filter data using criteria (WHERE clauses)</li>
+              <li>Sort results (ORDER BY)</li>
+              <li>Perform calculations (aggregate functions)</li>
+              <li>Join multiple tables to get related data</li>
+            </ul>
+            <div class="mt-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <strong>Example:</strong> "Show me all Grade 11 students who have borrowed more than 5 books"
+            </div>
+          </div>
+        </details>
+
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Forms - User Interface</span></summary>
+          <div class="px-4 py-3">
+            <p><strong>Purpose:</strong> Provide user-friendly interface for data entry and editing</p>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Easier than entering data directly in tables</li>
+              <li>Can include validation rules and help text</li>
+              <li>Show related data from multiple tables</li>
+              <li>Professional appearance for end users</li>
+            </ul>
+            <div class="mt-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+              <strong>Example:</strong> Student registration form with dropdown for grade selection and validation for email format
+            </div>
+          </div>
+        </details>
+
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Reports - Data Presentation</span></summary>
+          <div class="px-4 py-3">
+            <p><strong>Purpose:</strong> Present data in formatted, professional output suitable for printing</p>
+            <ul class="list-disc pl-6 mt-2">
+              <li>Include calculations and summaries</li>
+              <li>Group and sort data logically</li>
+              <li>Add headers, footers, and page numbers</li>
+              <li>Export to PDF, Word, or Excel</li>
+            </ul>
+            <div class="mt-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+              <strong>Example:</strong> Monthly borrowing report showing total books borrowed per student with overdue fines
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Data Types and Field Properties -->
+      <section>
+        <h2>Data Types & Field Properties</h2>
+        <h3>Essential Data Types</h3>
+        
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-blue-600 dark:text-blue-400">Text</h4>
+            <p class="text-sm">Letters, numbers, symbols. Use for names, addresses, phone numbers.</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Max 255 characters</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-green-600 dark:text-green-400">Number</h4>
+            <p class="text-sm">Mathematical calculations. Use for ages, scores, quantities.</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Integer or decimal</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-purple-600 dark:text-purple-400">Date/Time</h4>
+            <p class="text-sm">Dates and times. Use for birth dates, due dates, timestamps.</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Various formats</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-orange-600 dark:text-orange-400">Currency</h4>
+            <p class="text-sm">Money values. Use for prices, fees, salaries.</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Automatic formatting</p>
+          </div>
+        </div>
+
+        <h3>Field Properties</h3>
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Validation Rules</span></summary>
+          <div class="px-4 py-3">
+            <p>Control what data can be entered into a field:</p>
+            <ul class="list-disc pl-6 mt-2">
+              <li><code>&gt;0</code> - Must be greater than zero</li>
+              <li><code>Between 8 And 12</code> - Must be between 8 and 12</li>
+              <li><code>Like "*@*.*"</code> - Must contain @ symbol (email format)</li>
+              <li><code>Is Not Null</code> - Field cannot be empty</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Input Masks</span></summary>
+          <div class="px-4 py-3">
+            <p>Control the format of data entry:</p>
+            <ul class="list-disc pl-6 mt-2">
+              <li><code>000-000-0000</code> - Phone number format</li>
+              <li><code>00/00/0000</code> - Date format</li>
+              <li><code>L0000000</code> - Student ID (letter + 7 digits)</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <!-- Query Design -->
+      <section>
+        <h2>Query Design & SQL</h2>
+        <h3>Basic Query Structure</h3>
+        
+        <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg mb-4">
+          <p class="font-mono text-sm">
+            SELECT [fields to display]<br>
+            FROM [table name]<br>
+            WHERE [conditions]<br>
+            ORDER BY [sort field];
+          </p>
+        </div>
+
+        <h3>Logical Operators</h3>
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-blue-600 dark:text-blue-400">AND</h4>
+            <p class="text-sm">Both conditions must be true</p>
+            <p class="text-xs font-mono mt-1">Grade = "11" AND IsActive = Yes</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-green-600 dark:text-green-400">OR</h4>
+            <p class="text-sm">Either condition can be true</p>
+            <p class="text-xs font-mono mt-1">Genre = "Fiction" OR Genre = "Science"</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-red-600 dark:text-red-400">NOT</h4>
+            <p class="text-sm">Exclude records that match</p>
+            <p class="text-xs font-mono mt-1">NOT Status = "Returned"</p>
+          </div>
+        </div>
+
+        <h3>Aggregate Functions</h3>
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Common Functions</span></summary>
+          <div class="px-4 py-3">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="font-semibold">COUNT()</h4>
+                <p class="text-sm">Count number of records</p>
+                <p class="text-xs font-mono">COUNT(*) AS TotalStudents</p>
+              </div>
+              <div>
+                <h4 class="font-semibold">SUM()</h4>
+                <p class="text-sm">Add up numeric values</p>
+                <p class="text-xs font-mono">SUM(FineAmount) AS TotalFines</p>
+              </div>
+              <div>
+                <h4 class="font-semibold">AVG()</h4>
+                <p class="text-sm">Calculate average</p>
+                <p class="text-xs font-mono">AVG(Price) AS AveragePrice</p>
+              </div>
+              <div>
+                <h4 class="font-semibold">MAX()/MIN()</h4>
+                <p class="text-sm">Find highest/lowest value</p>
+                <p class="text-xs font-mono">MAX(DueDate) AS LatestDue</p>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Relationships -->
+      <section>
+        <h2>Database Relationships</h2>
+        <p>Relationships connect related data across tables, reducing redundancy and ensuring data integrity.</p>
+
+        <h3>Types of Relationships</h3>
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-blue-600 dark:text-blue-400">One-to-One</h4>
+            <p class="text-sm">One record in Table A relates to exactly one record in Table B</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Example: Student ↔ Student ID Card</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-green-600 dark:text-green-400">One-to-Many</h4>
+            <p class="text-sm">One record in Table A relates to many records in Table B</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Example: Student ↔ Borrowings</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-purple-600 dark:text-purple-400">Many-to-Many</h4>
+            <p class="text-sm">Many records in Table A relate to many records in Table B</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Example: Students ↔ Books (via Borrowings)</p>
+          </div>
+        </div>
+
+        <h3>Foreign Keys</h3>
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg mb-4">
+          <p><strong>Definition:</strong> A field in one table that references the primary key of another table</p>
+          <p class="text-sm mt-2"><strong>Purpose:</strong> Establish relationships and maintain referential integrity</p>
+        </div>
+      </section>
+
+      <!-- Forms and Reports -->
+      <section>
+        <h2>Forms & Reports</h2>
+        
+        <h3>Form Controls</h3>
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold">Text Box</h4>
+            <p class="text-sm">Enter text or numbers</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Student name, phone number</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold">Combo Box</h4>
+            <p class="text-sm">Select from a list</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Grade selection (8, 9, 10, 11, 12)</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold">Check Box</h4>
+            <p class="text-sm">Yes/No selection</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Active status, available</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold">Date Picker</h4>
+            <p class="text-sm">Select dates</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Birth date, due date</p>
+          </div>
+        </div>
+
+        <h3>Report Sections</h3>
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Report Structure</span></summary>
+          <div class="px-4 py-3">
+            <ul class="list-disc pl-6">
+              <li><strong>Report Header:</strong> Appears once at top (title, date, logo)</li>
+              <li><strong>Page Header:</strong> Appears on each page (column headings)</li>
+              <li><strong>Detail:</strong> Main data content (individual records)</li>
+              <li><strong>Page Footer:</strong> Appears on each page (page numbers, date)</li>
+              <li><strong>Report Footer:</strong> Appears once at bottom (totals, summaries)</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <!-- Import/Export -->
+      <section>
+        <h2>Import & Export</h2>
+        <p>Microsoft Access can exchange data with other applications and file formats.</p>
+
+        <h3>Importable Formats</h3>
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-blue-600 dark:text-blue-400">Excel Files</h4>
+            <p class="text-sm">Import data from .xlsx or .xls files</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Student lists, grade data</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-green-600 dark:text-green-400">Text Files</h4>
+            <p class="text-sm">Import from .txt or .csv files</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Comma-separated values</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-purple-600 dark:text-purple-400">XML Files</h4>
+            <p class="text-sm">Import structured data</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Web data, configurations</p>
+          </div>
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-lg">
+            <h4 class="font-semibold text-orange-600 dark:text-orange-400">Other Databases</h4>
+            <p class="text-sm">Import from other Access databases</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Merging databases</p>
+          </div>
+        </div>
+
+        <h3>Export Options</h3>
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Export Formats</span></summary>
+          <div class="px-4 py-3">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="font-semibold">Excel</h4>
+                <p class="text-sm">For further analysis and charts</p>
+              </div>
+              <div>
+                <h4 class="font-semibold">PDF</h4>
+                <p class="text-sm">For reports and sharing</p>
+              </div>
+              <div>
+                <h4 class="font-semibold">Word</h4>
+                <p class="text-sm">For mail merge and documents</p>
+              </div>
+              <div>
+                <h4 class="font-semibold">CSV</h4>
+                <p class="text-sm">For data exchange</p>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- Best Practices -->
+      <section>
+        <h2>Database Best Practices</h2>
+        
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="p-4 border-l-4 border-green-500 bg-green-50 dark:bg-green-900/20 rounded-lg">
+            <h4 class="font-semibold text-green-700 dark:text-green-300">✅ Do's</h4>
+            <ul class="list-disc pl-6 text-sm mt-2">
+              <li>Plan your database structure first</li>
+              <li>Use meaningful field names</li>
+              <li>Always include primary keys</li>
+              <li>Set up proper relationships</li>
+              <li>Use appropriate data types</li>
+              <li>Add validation rules</li>
+              <li>Backup your database regularly</li>
+            </ul>
+          </div>
+          <div class="p-4 border-l-4 border-red-500 bg-red-50 dark:bg-red-900/20 rounded-lg">
+            <h4 class="font-semibold text-red-700 dark:text-red-300">❌ Don'ts</h4>
+            <ul class="list-disc pl-6 text-sm mt-2">
+              <li>Store the same data in multiple places</li>
+              <li>Use spaces in field names</li>
+              <li>Forget to set up relationships</li>
+              <li>Use text for numeric data</li>
+              <li>Ignore validation rules</li>
+              <li>Forget to backup data</li>
+              <li>Create overly complex queries</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Common Mistakes to Avoid</h3>
+        <details class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden mb-3">
+          <summary class="cursor-pointer select-none px-4 py-3 bg-slate-50 dark:bg-slate-800 flex items-center gap-2"><span class="chev">▶</span><span class="font-semibold">Design Errors</span></summary>
+          <div class="px-4 py-3">
+            <ul class="list-disc pl-6">
+              <li><strong>Data Redundancy:</strong> Storing the same information in multiple tables</li>
+              <li><strong>Poor Naming:</strong> Using unclear or inconsistent field names</li>
+              <li><strong>Missing Relationships:</strong> Not connecting related tables properly</li>
+              <li><strong>Wrong Data Types:</strong> Using text for numbers or dates</li>
+              <li><strong>No Validation:</strong> Allowing invalid data to be entered</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <!-- Summary -->
+      <section>
+        <h2>Summary</h2>
+        <ul class="list-disc pl-6">
+          <li>Microsoft Access has four main objects: Tables, Queries, Forms, and Reports</li>
+          <li>Choose appropriate data types and set up validation rules for data integrity</li>
+          <li>Use relationships to connect related data and reduce redundancy</li>
+          <li>Design queries carefully using logical operators and aggregate functions</li>
+          <li>Create user-friendly forms for data entry and professional reports for output</li>
+          <li>Import/export data to work with other applications</li>
+          <li>Follow best practices to create efficient, maintainable databases</li>
+        </ul>
+        
+        <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+          <p class="font-semibold">Ready to practice?</p>
+          <p class="text-sm mt-1">Take the <a href="/quiz" class="text-blue-600 dark:text-blue-400 underline">pre-assessment quiz</a> to test your knowledge!</p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <script>
+    // ---- Theme toggle with persistence ----
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+    const THEME_KEY = 'notes-theme';
+
+    function applyTheme(mode){
+      if(mode === 'dark'){ root.classList.add('dark'); }
+      else { root.classList.remove('dark'); }
+    }
+    function getPreferredTheme(){
+      const saved = localStorage.getItem(THEME_KEY);
+      if(saved) return saved;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    let currentTheme = getPreferredTheme();
+    applyTheme(currentTheme);
+
+    toggleBtn?.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, currentTheme);
+      applyTheme(currentTheme);
+    });
+
+    // ---- Build Table of Contents from h2/h3 ----
+    const toc = document.getElementById('toc');
+    const headings = Array.from(document.querySelectorAll('#content h2, #content h3'));
+    const list = document.createElement('ul');
+    list.className = 'space-y-1';
+    headings.forEach((h, idx) => {
+      const id = h.id || `sec-${idx}-${h.textContent.toLowerCase().replace(/\s+/g,'-')}`;
+      h.id = id;
+      const li = document.createElement('li');
+      li.className = h.tagName === 'H2' ? 'pl-0' : 'pl-4 opacity-80';
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      a.textContent = h.textContent;
+      a.className = 'block rounded-lg px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800';
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    toc?.appendChild(list);
+
+    // ---- Highlight active section while scrolling ----
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        const link = toc?.querySelector(`a[href="#${id}"]`);
+        if(!link) return;
+        if(entry.isIntersecting){
+          toc.querySelectorAll('a').forEach(a=>a.classList.remove('toc-active'));
+          link.classList.add('toc-active');
+        }
+      });
+    }, { rootMargin: '0px 0px -70% 0px', threshold: 0.1 });
+
+    headings.forEach(h => observer.observe(h));
+
+    // ---- Simple client-side search highlight ----
+    const searchInput = document.getElementById('searchInput');
+    searchInput?.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      const blocks = document.querySelectorAll('#content p, #content li');
+      blocks.forEach(b => {
+        b.innerHTML = b.textContent; // reset
+        if(q && b.textContent.toLowerCase().includes(q)){
+          const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'ig');
+          b.innerHTML = b.textContent.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-600">$1</mark>');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

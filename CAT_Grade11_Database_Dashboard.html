@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Database Quiz Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+        .controls {
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .filter-group label {
+            font-weight: 500;
+            color: #495057;
+        }
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .export-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .export-btn:hover {
+            background: #218838;
+        }
+        .results-table {
+            padding: 30px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .score-cell {
+            font-weight: bold;
+        }
+        .score-excellent {
+            color: #28a745;
+        }
+        .score-good {
+            color: #ffc107;
+        }
+        .score-poor {
+            color: #dc3545;
+        }
+        .detail-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .detail-btn:hover {
+            background: #0056b3;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #000;
+        }
+        .student-detail {
+            margin-bottom: 20px;
+        }
+        .detail-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .detail-item {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        .detail-value {
+            color: #007bff;
+            font-size: 1.1em;
+        }
+        .incorrect-answers {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .incorrect-answer {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #dc3545;
+        }
+        .chart-container {
+            padding: 30px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        .chart-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+        }
+        .chart-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .chart-placeholder {
+            height: 300px;
+            background: #e9ecef;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+            font-style: italic;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .results-table {
+                padding: 20px;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Teacher Dashboard</h1>
+            <p>Database Pre-Assessment Quiz Results & Analytics</p>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalStudents">0</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="averageScore">0%</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="excellentCount">0</div>
+                <div class="stat-label">Excellent (80%+)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="needsHelpCount">0</div>
+                <div class="stat-label">Needs Help (<60%)</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Filter by Grade:</label>
+                    <select id="gradeFilter">
+                        <option value="">All Grades</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Filter by Score:</label>
+                    <select id="scoreFilter">
+                        <option value="">All Scores</option>
+                        <option value="excellent">Excellent (80%+)</option>
+                        <option value="good">Good (60-79%)</option>
+                        <option value="poor">Needs Help (<60%)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Search by Name:</label>
+                    <input type="text" id="nameSearch" placeholder="Enter student name...">
+                </div>
+                <button class="export-btn" onclick="exportResults()">📊 Export Results</button>
+            </div>
+        </div>
+
+        <div class="results-table">
+            <div class="table-container">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Grade</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Time Used</th>
+                            <th>Submission Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody">
+                        <!-- Results will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-title">Score Distribution</div>
+                    <div class="chart-placeholder" id="scoreChart">
+                        Score distribution chart will be displayed here
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title">Topic Performance</div>
+                    <div class="chart-placeholder" id="topicChart">
+                        Topic performance chart will be displayed here
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Detail Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="studentDetailContent">
+                <!-- Student details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allSubmissions = [];
+        let filteredSubmissions = [];
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            setupFilters();
+        });
+
+        function loadData() {
+            // Load from localStorage (in production, this would be from your Railway backend)
+            const storedData = localStorage.getItem('quizSubmissions');
+            allSubmissions = storedData ? JSON.parse(storedData) : [];
+            filteredSubmissions = [...allSubmissions];
+            
+            updateStats();
+            updateTable();
+            updateCharts();
+        }
+
+        function setupFilters() {
+            document.getElementById('gradeFilter').addEventListener('change', filterResults);
+            document.getElementById('scoreFilter').addEventListener('change', filterResults);
+            document.getElementById('nameSearch').addEventListener('input', filterResults);
+        }
+
+        function filterResults() {
+            const gradeFilter = document.getElementById('gradeFilter').value;
+            const scoreFilter = document.getElementById('scoreFilter').value;
+            const nameSearch = document.getElementById('nameSearch').value.toLowerCase();
+
+            filteredSubmissions = allSubmissions.filter(submission => {
+                // Grade filter
+                if (gradeFilter && submission.studentGrade !== gradeFilter) {
+                    return false;
+                }
+
+                // Score filter
+                if (scoreFilter) {
+                    const percentage = submission.percentage;
+                    if (scoreFilter === 'excellent' && percentage < 80) return false;
+                    if (scoreFilter === 'good' && (percentage < 60 || percentage >= 80)) return false;
+                    if (scoreFilter === 'poor' && percentage >= 60) return false;
+                }
+
+                // Name search
+                if (nameSearch && !submission.studentName.toLowerCase().includes(nameSearch)) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            updateTable();
+        }
+
+        function updateStats() {
+            const totalStudents = allSubmissions.length;
+            const averageScore = totalStudents > 0 ? 
+                Math.round(allSubmissions.reduce((sum, s) => sum + s.percentage, 0) / totalStudents) : 0;
+            const excellentCount = allSubmissions.filter(s => s.percentage >= 80).length;
+            const needsHelpCount = allSubmissions.filter(s => s.percentage < 60).length;
+
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('averageScore').textContent = averageScore + '%';
+            document.getElementById('excellentCount').textContent = excellentCount;
+            document.getElementById('needsHelpCount').textContent = needsHelpCount;
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('resultsTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredSubmissions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="no-data">No results found</td></tr>';
+                return;
+            }
+
+            filteredSubmissions.forEach((submission, index) => {
+                const row = document.createElement('tr');
+                const timeUsed = formatTime(submission.timeUsed);
+                const submissionDate = new Date(submission.submissionTime).toLocaleDateString();
+                
+                let scoreClass = '';
+                if (submission.percentage >= 80) scoreClass = 'score-excellent';
+                else if (submission.percentage >= 60) scoreClass = 'score-good';
+                else scoreClass = 'score-poor';
+
+                row.innerHTML = `
+                    <td>${submission.studentName}</td>
+                    <td>${submission.studentEmail}</td>
+                    <td>Grade ${submission.studentGrade}</td>
+                    <td class="score-cell ${scoreClass}">${submission.score}/${submission.totalQuestions}</td>
+                    <td class="score-cell ${scoreClass}">${submission.percentage}%</td>
+                    <td>${timeUsed}</td>
+                    <td>${submissionDate}</td>
+                    <td>
+                        <button class="detail-btn" onclick="showStudentDetail(${index})">View Details</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function showStudentDetail(index) {
+            const submission = filteredSubmissions[index];
+            const modal = document.getElementById('studentModal');
+            const content = document.getElementById('studentDetailContent');
+
+            const timeUsed = formatTime(submission.timeUsed);
+            const submissionDate = new Date(submission.submissionTime).toLocaleString();
+
+            let incorrectAnswersHtml = '';
+            if (submission.incorrectAnswers.length > 0) {
+                incorrectAnswersHtml = `
+                    <div class="incorrect-answers">
+                        <h3>❌ Incorrect Answers</h3>
+                        ${submission.incorrectAnswers.map(answer => `
+                            <div class="incorrect-answer">
+                                <strong>Question ${answer.question} (${answer.topic}):</strong><br>
+                                Student Answer: ${answer.studentAnswer}<br>
+                                Correct Answer: ${answer.correctAnswer}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                incorrectAnswersHtml = '<div class="incorrect-answers"><h3>✅ All answers correct!</h3></div>';
+            }
+
+            content.innerHTML = `
+                <div class="student-detail">
+                    <div class="detail-header">
+                        <h2>📊 ${submission.studentName}</h2>
+                        <p>Quiz Results Analysis</p>
+                    </div>
+                    
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${submission.studentEmail}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Grade</div>
+                            <div class="detail-value">Grade ${submission.studentGrade}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Score</div>
+                            <div class="detail-value">${submission.score}/${submission.totalQuestions}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Percentage</div>
+                            <div class="detail-value">${submission.percentage}%</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time Used</div>
+                            <div class="detail-value">${timeUsed}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Submission Date</div>
+                            <div class="detail-value">${submissionDate}</div>
+                        </div>
+                    </div>
+
+                    ${incorrectAnswersHtml}
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('studentModal').style.display = 'none';
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateCharts() {
+            // This would integrate with a charting library like Chart.js
+            // For now, we'll show placeholder text
+            console.log('Charts would be updated here with real data');
+        }
+
+        function exportResults() {
+            const csvContent = generateCSV();
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `quiz_results_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function generateCSV() {
+            const headers = ['Student Name', 'Email', 'Grade', 'Score', 'Percentage', 'Time Used', 'Submission Date'];
+            const csvRows = [headers.join(',')];
+            
+            filteredSubmissions.forEach(submission => {
+                const row = [
+                    submission.studentName,
+                    submission.studentEmail,
+                    submission.studentGrade,
+                    `${submission.score}/${submission.totalQuestions}`,
+                    `${submission.percentage}%`,
+                    formatTime(submission.timeUsed),
+                    new Date(submission.submissionTime).toLocaleDateString()
+                ];
+                csvRows.push(row.join(','));
+            });
+            
+            return csvRows.join('\n');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('studentModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

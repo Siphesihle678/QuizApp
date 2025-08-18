@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 11 CAT - Microsoft Access Pre-Assessment Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .question-number {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .options {
+            margin-top: 15px;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #e8f4fd;
+        }
+        .submit-btn {
+            background: #3498db;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+        .results {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Microsoft Access Pre-Assessment Quiz</h1>
+            <p>Grade 11 CAT - Database Concepts Evaluation</p>
+            <p><strong>Time:</strong> 30 minutes | <strong>Questions:</strong> 25 multiple choice</p>
+        </div>
+
+        <form id="quizForm">
+            <!-- Term 1 Questions -->
+            <div class="question">
+                <div class="question-number">Question 1</div>
+                <p>Which of the following is NOT a main database object in Microsoft Access?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q1" value="A"> A) Tables</div>
+                    <div class="option"><input type="radio" name="q1" value="B"> B) Forms</div>
+                    <div class="option"><input type="radio" name="q1" value="C"> C) Queries</div>
+                    <div class="option"><input type="radio" name="q1" value="D"> D) Worksheets</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 2</div>
+                <p>In a database table, what is the correct term for a single piece of information?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q2" value="A"> A) Field</div>
+                    <div class="option"><input type="radio" name="q2" value="B"> B) Record</div>
+                    <div class="option"><input type="radio" name="q2" value="C"> C) Cell</div>
+                    <div class="option"><input type="radio" name="q2" value="D"> D) Column</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 3</div>
+                <p>Which data type would be most appropriate for storing a person's phone number?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q3" value="A"> A) Number</div>
+                    <div class="option"><input type="radio" name="q3" value="B"> B) Text</div>
+                    <div class="option"><input type="radio" name="q3" value="C"> C) Date/Time</div>
+                    <div class="option"><input type="radio" name="q3" value="D"> D) Currency</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 4</div>
+                <p>What is the purpose of setting a field as "Required" in Access?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q4" value="A"> A) To make the field larger</div>
+                    <div class="option"><input type="radio" name="q4" value="B"> B) To ensure data must be entered</div>
+                    <div class="option"><input type="radio" name="q4" value="C"> C) To hide the field from view</div>
+                    <div class="option"><input type="radio" name="q4" value="D"> D) To make the field read-only</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 5</div>
+                <p>Which view in Access allows you to modify the structure of a table?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q5" value="A"> A) Table view</div>
+                    <div class="option"><input type="radio" name="q5" value="B"> B) Design view</div>
+                    <div class="option"><input type="radio" name="q5" value="C"> C) Form view</div>
+                    <div class="option"><input type="radio" name="q5" value="D"> D) Report view</div>
+                </div>
+            </div>
+
+            <!-- Term 2 Questions -->
+            <div class="question">
+                <div class="question-number">Question 6</div>
+                <p>What is the primary purpose of a query in Access?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q6" value="A"> A) To store data</div>
+                    <div class="option"><input type="radio" name="q6" value="B"> B) To retrieve and filter data</div>
+                    <div class="option"><input type="radio" name="q6" value="C"> C) To print reports</div>
+                    <div class="option"><input type="radio" name="q6" value="D"> D) To create forms</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 7</div>
+                <p>Which logical operator would you use to find records that meet BOTH conditions?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q7" value="A"> A) OR</div>
+                    <div class="option"><input type="radio" name="q7" value="B"> B) AND</div>
+                    <div class="option"><input type="radio" name="q7" value="C"> C) NOT</div>
+                    <div class="option"><input type="radio" name="q7" value="D"> D) XOR</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 8</div>
+                <p>In a query, what does the "Show" checkbox control?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q8" value="A"> A) Whether the field is required</div>
+                    <div class="option"><input type="radio" name="q8" value="B"> B) Whether the field appears in results</div>
+                    <div class="option"><input type="radio" name="q8" value="C"> C) Whether the field can be edited</div>
+                    <div class="option"><input type="radio" name="q8" value="D"> D) Whether the field is sorted</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 9</div>
+                <p>Which field property controls the maximum number of characters that can be entered?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q9" value="A"> A) Default Value</div>
+                    <div class="option"><input type="radio" name="q9" value="B"> B) Field Size</div>
+                    <div class="option"><input type="radio" name="q9" value="C"> C) Validation Rule</div>
+                    <div class="option"><input type="radio" name="q9" value="D"> D) Format</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 10</div>
+                <p>What is the purpose of the "Default Value" field property?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q10" value="A"> A) To make the field required</div>
+                    <div class="option"><input type="radio" name="q10" value="B"> B) To automatically fill in a value</div>
+                    <div class="option"><input type="radio" name="q10" value="C"> C) To hide the field</div>
+                    <div class="option"><input type="radio" name="q10" value="D"> D) To sort the records</div>
+                </div>
+            </div>
+
+            <!-- Term 3 Questions -->
+            <div class="question">
+                <div class="question-number">Question 11</div>
+                <p>What is the main purpose of data validation in a database?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q11" value="A"> A) To make the database faster</div>
+                    <div class="option"><input type="radio" name="q11" value="B"> B) To ensure data accuracy and consistency</div>
+                    <div class="option"><input type="radio" name="q11" value="C"> C) To reduce storage space</div>
+                    <div class="option"><input type="radio" name="q11" value="D"> D) To make the database more secure</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 12</div>
+                <p>Which of the following can be added to a report in Access?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q12" value="A"> A) Page headers and footers</div>
+                    <div class="option"><input type="radio" name="q12" value="B"> B) Calculations and totals</div>
+                    <div class="option"><input type="radio" name="q12" value="C"> C) Report headers and footers</div>
+                    <div class="option"><input type="radio" name="q12" value="D"> D) All of the above</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 13</div>
+                <p>What is the purpose of importing data into Access?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q13" value="A"> A) To delete existing data</div>
+                    <div class="option"><input type="radio" name="q13" value="B"> B) To bring data from other sources</div>
+                    <div class="option"><input type="radio" name="q13" value="C"> C) To backup the database</div>
+                    <div class="option"><input type="radio" name="q13" value="D"> D) To create new tables</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 14</div>
+                <p>Which file format can Access import data from?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q14" value="A"> A) Excel (.xlsx)</div>
+                    <div class="option"><input type="radio" name="q14" value="B"> B) Text files (.txt)</div>
+                    <div class="option"><input type="radio" name="q14" value="C"> C) CSV files (.csv)</div>
+                    <div class="option"><input type="radio" name="q14" value="D"> D) All of the above</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 15</div>
+                <p>What is the main role of databases in processing data?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q15" value="A"> A) To store data only</div>
+                    <div class="option"><input type="radio" name="q15" value="B"> B) To manipulate data and provide information</div>
+                    <div class="option"><input type="radio" name="q15" value="C"> C) To delete data</div>
+                    <div class="option"><input type="radio" name="q15" value="D"> D) To create graphics</div>
+                </div>
+            </div>
+
+            <!-- Additional Questions -->
+            <div class="question">
+                <div class="question-number">Question 16</div>
+                <p>Which data type would be best for storing a person's date of birth?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q16" value="A"> A) Text</div>
+                    <div class="option"><input type="radio" name="q16" value="B"> B) Number</div>
+                    <div class="option"><input type="radio" name="q16" value="C"> C) Date/Time</div>
+                    <div class="option"><input type="radio" name="q16" value="D"> D) Currency</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 17</div>
+                <p>What happens when you sort data in ascending order?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q17" value="A"> A) Data is arranged from highest to lowest</div>
+                    <div class="option"><input type="radio" name="q17" value="B"> B) Data is arranged from lowest to highest</div>
+                    <div class="option"><input type="radio" name="q17" value="C"> C) Data is randomly arranged</div>
+                    <div class="option"><input type="radio" name="q17" value="D"> D) Data is deleted</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 18</div>
+                <p>Which logical operator would you use to exclude certain records?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q18" value="A"> A) AND</div>
+                    <div class="option"><input type="radio" name="q18" value="B"> B) OR</div>
+                    <div class="option"><input type="radio" name="q18" value="C"> C) NOT</div>
+                    <div class="option"><input type="radio" name="q18" value="D"> D) XOR</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 19</div>
+                <p>What is the purpose of a form in Access?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q19" value="A"> A) To store data</div>
+                    <div class="option"><input type="radio" name="q19" value="B"> B) To provide a user-friendly interface for data entry</div>
+                    <div class="option"><input type="radio" name="q19" value="C"> C) To print reports</div>
+                    <div class="option"><input type="radio" name="q19" value="D"> D) To create queries</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 20</div>
+                <p>Which field property would you use to ensure only numbers between 1 and 100 are entered?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q20" value="A"> A) Default Value</div>
+                    <div class="option"><input type="radio" name="q20" value="B"> B) Validation Rule</div>
+                    <div class="option"><input type="radio" name="q20" value="C"> C) Field Size</div>
+                    <div class="option"><input type="radio" name="q20" value="D"> D) Format</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 21</div>
+                <p>What is the purpose of exporting data from Access?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q21" value="A"> A) To delete data</div>
+                    <div class="option"><input type="radio" name="q21" value="B"> B) To share data with other applications</div>
+                    <div class="option"><input type="radio" name="q21" value="C"> C) To backup the database</div>
+                    <div class="option"><input type="radio" name="q21" value="D"> D) To create new tables</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 22</div>
+                <p>Which view allows you to see how a report will look when printed?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q22" value="A"> A) Design view</div>
+                    <div class="option"><input type="radio" name="q22" value="B"> B) Print Preview</div>
+                    <div class="option"><input type="radio" name="q22" value="C"> C) Layout view</div>
+                    <div class="option"><input type="radio" name="q22" value="D"> D) Report view</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 23</div>
+                <p>What is the purpose of the "Decimal Places" field property?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q23" value="A"> A) To control the number of decimal places displayed</div>
+                    <div class="option"><input type="radio" name="q23" value="B"> B) To make the field required</div>
+                    <div class="option"><input type="radio" name="q23" value="C"> C) To hide the field</div>
+                    <div class="option"><input type="radio" name="q23" value="D"> D) To sort the records</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 24</div>
+                <p>Which of the following is a benefit of using a database over a spreadsheet?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q24" value="A"> A) Better data integrity and relationships</div>
+                    <div class="option"><input type="radio" name="q24" value="B"> B) Easier to create graphs</div>
+                    <div class="option"><input type="radio" name="q24" value="C"> C) Better for calculations</div>
+                    <div class="option"><input type="radio" name="q24" value="D"> D) More colorful interface</div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Question 25</div>
+                <p>What is the primary key in a database table?</p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q25" value="A"> A) The first field in the table</div>
+                    <div class="option"><input type="radio" name="q25" value="B"> B) A field that uniquely identifies each record</div>
+                    <div class="option"><input type="radio" name="q25" value="C"> C) The largest field in the table</div>
+                    <div class="option"><input type="radio" name="q25" value="D"> D) The most important field</div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Quiz & Get Results</button>
+        </form>
+
+        <div class="results" id="results">
+            <div class="score" id="score"></div>
+            <div id="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: 'D', q2: 'A', q3: 'B', q4: 'B', q5: 'B',
+            q6: 'B', q7: 'B', q8: 'B', q9: 'B', q10: 'B',
+            q11: 'B', q12: 'D', q13: 'B', q14: 'D', q15: 'B',
+            q16: 'C', q17: 'B', q18: 'C', q19: 'B', q20: 'B',
+            q21: 'B', q22: 'B', q23: 'A', q24: 'A', q25: 'B'
+        };
+
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let score = 0;
+            let answered = 0;
+            
+            for (let i = 1; i <= 25; i++) {
+                const questionName = `q${i}`;
+                const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+                
+                if (selectedAnswer) {
+                    answered++;
+                    if (selectedAnswer.value === correctAnswers[questionName]) {
+                        score++;
+                    }
+                }
+            }
+            
+            const percentage = Math.round((score / 25) * 100);
+            
+            document.getElementById('score').textContent = `Score: ${score}/25 (${percentage}%)`;
+            
+            let feedback = '';
+            if (percentage >= 80) {
+                feedback = '🎉 Excellent! You have a strong foundation in Microsoft Access concepts.';
+            } else if (percentage >= 60) {
+                feedback = '👍 Good work! You understand most concepts but could benefit from some review.';
+            } else if (percentage >= 40) {
+                feedback = '📚 Fair understanding. Focus on the areas where you struggled.';
+            } else {
+                feedback = '📖 Needs improvement. Consider reviewing the basic concepts before proceeding.';
+            }
+            
+            document.getElementById('feedback').textContent = feedback;
+            
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

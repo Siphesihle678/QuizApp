@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 11 CAT - Microsoft Access Database Interactive Notes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            color: #495057;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+
+        .nav-tab.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .content-section {
+            display: none;
+            padding: 40px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .concept-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .concept-description {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .example-box {
+            background: #e8f4fd;
+            border: 1px solid #b3d9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .interactive-demo {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .demo-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .demo-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+
+        .demo-button:hover {
+            background: #218838;
+        }
+
+        .demo-result {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .tip-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .tip-title {
+            font-weight: bold;
+            color: #155724;
+            margin-bottom: 10px;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-title {
+            font-weight: bold;
+            color: #721c24;
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 30px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .highlight {
+            background: yellow;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .table-example {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table-example th,
+        .table-example td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table-example th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .table-example tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Microsoft Access Database Notes</h1>
+            <p>Grade 11 CAT - Interactive Learning Guide</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+            <button class="nav-tab" onclick="showSection('objects')">Database Objects</button>
+            <button class="nav-tab" onclick="showSection('tables')">Tables & Fields</button>
+            <button class="nav-tab" onclick="showSection('queries')">Queries</button>
+            <button class="nav-tab" onclick="showSection('reports')">Reports</button>
+            <button class="nav-tab" onclick="showSection('forms')">Forms</button>
+            <button class="nav-tab" onclick="showSection('validation')">Validation</button>
+            <button class="nav-tab" onclick="showSection('import')">Import/Export</button>
+        </div>
+
+        <!-- Search Box -->
+        <div style="padding: 20px 40px 0;">
+            <input type="text" class="search-box" placeholder="🔍 Search for concepts, terms, or examples..." onkeyup="searchContent(this.value)">
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">📚 Database Overview</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">What is a Database?</div>
+                <div class="concept-description">
+                    A database is an organized collection of data stored electronically. Microsoft Access is a database management system that allows you to store, retrieve, and manage information efficiently.
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Real-World Examples:</div>
+                    <ul>
+                        <li>School library system (books, students, borrowings)</li>
+                        <li>Hospital patient records</li>
+                        <li>Online store inventory</li>
+                        <li>Student grade management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Why Use Databases?</div>
+                <div class="concept-description">
+                    Databases provide better data organization, security, and efficiency compared to spreadsheets.
+                </div>
+                
+                <div class="interactive-demo">
+                    <div class="demo-title">Database vs Spreadsheet Comparison</div>
+                    <button class="demo-button" onclick="showComparison()">Show Comparison</button>
+                    <div id="comparison-result" class="demo-result">
+                        <strong>Database Advantages:</strong><br>
+                        • Data integrity and relationships<br>
+                        • Multiple users can access simultaneously<br>
+                        • Better security and access control<br>
+                        • Efficient querying and reporting<br>
+                        • Reduced data redundancy
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">💡 Key Tip</div>
+                <p>Think of a database as a digital filing cabinet where you can organize, search, and retrieve information quickly and efficiently.</p>
+            </div>
+        </div>
+
+        <!-- Database Objects Section -->
+        <div id="objects" class="content-section">
+            <h2 class="section-title">🏗️ Database Objects</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">The Four Main Objects</div>
+                <div class="concept-description">
+                    Microsoft Access has four primary objects that work together to create a complete database system.
+                </div>
+                
+                <div class="table-example">
+                    <table>
+                        <tr>
+                            <th>Object</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Tables</strong></td>
+                            <td>Store data in rows and columns</td>
+                            <td>Student information, book details</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Queries</strong></td>
+                            <td>Retrieve and filter data</td>
+                            <td>Find all Grade 11 students</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Forms</strong></td>
+                            <td>User-friendly data entry interface</td>
+                            <td>Add new student form</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reports</strong></td>
+                            <td>Present data in formatted output</td>
+                            <td>Monthly borrowing report</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title">Object Relationship Demo</div>
+                <button class="demo-button" onclick="showObjectFlow()">Show How Objects Work Together</button>
+                <div id="object-flow-result" class="demo-result">
+                    <strong>Data Flow:</strong><br>
+                    1. Data is stored in <strong>Tables</strong><br>
+                    2. <strong>Queries</strong> extract specific data<br>
+                    3. <strong>Forms</strong> provide easy data entry<br>
+                    4. <strong>Reports</strong> present information professionally
+                </div>
+            </div>
+        </div>
+
+        <!-- Tables & Fields Section -->
+        <div id="tables" class="content-section">
+            <h2 class="section-title">📋 Tables & Fields</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">Table Structure</div>
+                <div class="concept-description">
+                    Tables are the foundation of any database. They store data in a structured format with rows (records) and columns (fields).
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Students Table Example:</div>
+                    <div class="table-example">
+                        <table>
+                            <tr>
+                                <th>StudentID</th>
+                                <th>FirstName</th>
+                                <th>LastName</th>
+                                <th>Grade</th>
+                                <th>Email</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>John</td>
+                                <td>Smith</td>
+                                <td>11</td>
+                                <td>john@school.com</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Sarah</td>
+                                <td>Johnson</td>
+                                <td>11</td>
+                                <td>sarah@school.com</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Data Types</div>
+                <div class="concept-description">
+                    Each field must have a specific data type that determines what kind of data it can store.
+                </div>
+                
+                <div class="table-example">
+                    <table>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Text</strong></td>
+                            <td>Letters, numbers, symbols</td>
+                            <td>Names, addresses, phone numbers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number</strong></td>
+                            <td>Mathematical calculations</td>
+                            <td>Age, scores, quantities</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Date/Time</strong></td>
+                            <td>Dates and times</td>
+                            <td>Birth dates, due dates</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Currency</strong></td>
+                            <td>Money values</td>
+                            <td>Prices, fees, salaries</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Yes/No</strong></td>
+                            <td>True/false values</td>
+                            <td>Active status, availability</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Field Properties</div>
+                <div class="concept-description">
+                    Field properties control how data is stored, displayed, and validated in each field.
+                </div>
+                
+                <div class="interactive-demo">
+                    <div class="demo-title">Field Property Examples</div>
+                    <button class="demo-button" onclick="showFieldProperties()">Show Common Properties</button>
+                    <div id="field-properties-result" class="demo-result">
+                        <strong>Common Field Properties:</strong><br>
+                        • <strong>Field Size:</strong> Maximum characters (e.g., 50 for names)<br>
+                        • <strong>Required:</strong> Must have a value (Yes/No)<br>
+                        • <strong>Default Value:</strong> Automatically filled value<br>
+                        • <strong>Validation Rule:</strong> Data entry restrictions<br>
+                        • <strong>Format:</strong> How data is displayed
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-title">⚠️ Important</div>
+                <p>Always choose the most appropriate data type for your fields. Using the wrong data type can cause problems with sorting, calculations, and data validation.</p>
+            </div>
+        </div>
+
+        <!-- Queries Section -->
+        <div id="queries" class="content-section">
+            <h2 class="section-title">🔍 Queries</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">What are Queries?</div>
+                <div class="concept-description">
+                    Queries are questions you ask your database. They allow you to retrieve specific data from one or more tables based on criteria you specify.
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Query Examples:</div>
+                    <ul>
+                        <li>"Show me all students in Grade 11"</li>
+                        <li>"Find books that cost more than R100"</li>
+                        <li>"List overdue books and their borrowers"</li>
+                        <li>"Count how many books each student has borrowed"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Logical Operators</div>
+                <div class="concept-description">
+                    Logical operators help you create more complex queries by combining multiple conditions.
+                </div>
+                
+                <div class="table-example">
+                    <table>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Meaning</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>AND</strong></td>
+                            <td>Both conditions must be true</td>
+                            <td>Grade = "11" AND IsActive = Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OR</strong></td>
+                            <td>Either condition can be true</td>
+                            <td>Genre = "Fiction" OR Genre = "Science"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NOT</strong></td>
+                            <td>Exclude records that match</td>
+                            <td>NOT Status = "Returned"</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title">Query Builder Demo</div>
+                <button class="demo-button" onclick="showQueryExample()">Show Sample Query</button>
+                <div id="query-example-result" class="demo-result">
+                    <strong>Sample Query:</strong><br>
+                    <div class="code-block">
+                        SELECT FirstName, LastName, Grade<br>
+                        FROM Students<br>
+                        WHERE Grade = "11" AND IsActive = Yes<br>
+                        ORDER BY LastName, FirstName;
+                    </div>
+                    <strong>This query finds:</strong> All active Grade 11 students, sorted by last name then first name.
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">💡 Query Tips</div>
+                <ul>
+                    <li>Always test your queries with sample data first</li>
+                    <li>Use meaningful names for your queries</li>
+                    <li>Start simple and add complexity gradually</li>
+                    <li>Use the Query Design view for visual query building</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reports" class="content-section">
+            <h2 class="section-title">📊 Reports</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">What are Reports?</div>
+                <div class="concept-description">
+                    Reports present data in a formatted, professional manner suitable for printing or sharing. They can include calculations, totals, and grouping.
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Common Report Types:</div>
+                    <ul>
+                        <li>Student borrowing summary</li>
+                        <li>Book inventory report</li>
+                        <li>Overdue books list</li>
+                        <li>Monthly statistics</li>
+                        <li>Financial summaries</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Report Sections</div>
+                <div class="concept-description">
+                    Reports have different sections that control how information is displayed and formatted.
+                </div>
+                
+                <div class="table-example">
+                    <table>
+                        <tr>
+                            <th>Section</th>
+                            <th>Purpose</th>
+                            <th>Content</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Report Header</strong></td>
+                            <td>Appears once at the top</td>
+                            <td>Title, date, logo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Page Header</strong></td>
+                            <td>Appears on each page</td>
+                            <td>Column headings</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Detail</strong></td>
+                            <td>Main data content</td>
+                            <td>Individual records</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Page Footer</strong></td>
+                            <td>Appears on each page</td>
+                            <td>Page numbers, date</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Report Footer</strong></td>
+                            <td>Appears once at the bottom</td>
+                            <td>Totals, summaries</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title">Report Calculations Demo</div>
+                <button class="demo-button" onclick="showReportCalculations()">Show Calculation Examples</button>
+                <div id="report-calculations-result" class="demo-result">
+                    <strong>Common Report Calculations:</strong><br>
+                    • <strong>Count:</strong> Number of records<br>
+                    • <strong>Sum:</strong> Total of numeric values<br>
+                    • <strong>Average:</strong> Mean of values<br>
+                    • <strong>Maximum/Minimum:</strong> Highest/lowest values<br>
+                    • <strong>Custom formulas:</strong> Complex calculations
+                </div>
+            </div>
+        </div>
+
+        <!-- Forms Section -->
+        <div id="forms" class="content-section">
+            <h2 class="section-title">📝 Forms</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">What are Forms?</div>
+                <div class="concept-description">
+                    Forms provide a user-friendly interface for entering, editing, and viewing data. They make data entry more efficient and reduce errors.
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Form Benefits:</div>
+                    <ul>
+                        <li>Easier data entry than tables</li>
+                        <li>Better data validation</li>
+                        <li>Professional appearance</li>
+                        <li>Can include instructions and help text</li>
+                        <li>Can show related data from multiple tables</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Form Controls</div>
+                <div class="concept-description">
+                    Forms use various controls to display and collect data effectively.
+                </div>
+                
+                <div class="table-example">
+                    <table>
+                        <tr>
+                            <th>Control</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Text Box</strong></td>
+                            <td>Enter text or numbers</td>
+                            <td>Student name, phone number</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Combo Box</strong></td>
+                            <td>Select from a list</td>
+                            <td>Grade selection (8, 9, 10, 11, 12)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Check Box</strong></td>
+                            <td>Yes/No selection</td>
+                            <td>Active status, available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Date Picker</strong></td>
+                            <td>Select dates</td>
+                            <td>Birth date, due date</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Button</strong></td>
+                            <td>Perform actions</td>
+                            <td>Save, delete, search</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">💡 Form Design Tips</div>
+                <ul>
+                    <li>Group related fields together</li>
+                    <li>Use clear, descriptive labels</li>
+                    <li>Include validation messages</li>
+                    <li>Make the form visually appealing</li>
+                    <li>Test the form with real users</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Validation Section -->
+        <div id="validation" class="content-section">
+            <h2 class="section-title">✅ Data Validation</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">What is Data Validation?</div>
+                <div class="concept-description">
+                    Data validation ensures that only correct, complete, and reasonable data is entered into your database. It helps maintain data integrity and quality.
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Validation Examples:</div>
+                    <ul>
+                        <li>Email addresses must contain @ symbol</li>
+                        <li>Phone numbers must be 10 digits</li>
+                        <li>Grades must be between 8 and 12</li>
+                        <li>Prices must be greater than 0</li>
+                        <li>Required fields cannot be empty</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Validation Methods</div>
+                <div class="concept-description">
+                    Access provides several ways to validate data at different levels.
+                </div>
+                
+                <div class="table-example">
+                    <table>
+                        <tr>
+                            <th>Method</th>
+                            <th>Where Applied</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Field Properties</strong></td>
+                            <td>Table level</td>
+                            <td>Required = Yes, Field Size = 50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Validation Rules</strong></td>
+                            <td>Field level</td>
+                            <td>>0 AND <=100</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Input Masks</strong></td>
+                            <td>Field level</td>
+                            <td>Phone number format</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Form Validation</strong></td>
+                            <td>Form level</td>
+                            <td>Before Update event</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title">Validation Rule Examples</div>
+                <button class="demo-button" onclick="showValidationExamples()">Show Validation Rules</button>
+                <div id="validation-examples-result" class="demo-result">
+                    <strong>Common Validation Rules:</strong><br>
+                    • <strong>Numbers:</strong> >0 AND <=100<br>
+                    • <strong>Dates:</strong> >=#1/1/2000# AND <=Date()<br>
+                    • <strong>Text:</strong> Like "*@*.*" (email format)<br>
+                    • <strong>Required:</strong> Is Not Null<br>
+                    • <strong>Range:</strong> Between 8 And 12
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-title">⚠️ Validation Best Practices</div>
+                <ul>
+                    <li>Always provide clear error messages</li>
+                    <li>Test validation rules thoroughly</li>
+                    <li>Don't make rules too restrictive</li>
+                    <li>Consider user experience</li>
+                    <li>Document your validation rules</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Import/Export Section -->
+        <div id="import" class="content-section">
+            <h2 class="section-title">📤 Import/Export</h2>
+            
+            <div class="concept-card">
+                <div class="concept-title">Importing Data</div>
+                <div class="concept-description">
+                    Importing allows you to bring data from other sources into your Access database, saving time and reducing data entry errors.
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Importable File Types:</div>
+                    <ul>
+                        <li>Excel files (.xlsx, .xls)</li>
+                        <li>Text files (.txt, .csv)</li>
+                        <li>Other Access databases</li>
+                        <li>XML files</li>
+                        <li>SharePoint lists</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-title">Exporting Data</div>
+                <div class="concept-description">
+                    Exporting allows you to share your data with other applications or create backups of your information.
+                </div>
+                
+                <div class="table-example">
+                    <table>
+                        <tr>
+                            <th>Export Format</th>
+                            <th>Use Case</th>
+                            <th>Benefits</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Excel</strong></td>
+                            <td>Further analysis, charts</td>
+                            <td>Familiar interface, powerful tools</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PDF</strong></td>
+                            <td>Reports, sharing</td>
+                            <td>Fixed format, universal access</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Word</strong></td>
+                            <td>Mail merge, documents</td>
+                            <td>Professional documents</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CSV</strong></td>
+                            <td>Data exchange</td>
+                            <td>Simple format, widely supported</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <div class="demo-title">Integration Examples</div>
+                <button class="demo-button" onclick="showIntegrationExamples()">Show Integration Uses</button>
+                <div id="integration-examples-result" class="demo-result">
+                    <strong>Common Integration Uses:</strong><br>
+                    • <strong>Mail Merge:</strong> Send personalized letters to students<br>
+                    • <strong>Excel Analysis:</strong> Create charts and pivot tables<br>
+                    • <strong>Word Reports:</strong> Generate professional documents<br>
+                    • <strong>Email Integration:</strong> Send automated notifications<br>
+                    • <strong>Web Publishing:</strong> Share data online
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">💡 Import/Export Tips</div>
+                <ul>
+                    <li>Always backup your database before importing</li>
+                    <li>Check data types and formats before importing</li>
+                    <li>Use the Import Wizard for complex imports</li>
+                    <li>Test exports with small datasets first</li>
+                    <li>Consider data security when sharing exports</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Search functionality
+        function searchContent(searchTerm) {
+            const content = document.querySelectorAll('.concept-card, .example-box, .tip-box, .warning-box');
+            
+            content.forEach(element => {
+                const text = element.textContent.toLowerCase();
+                const searchLower = searchTerm.toLowerCase();
+                
+                if (searchTerm === '' || text.includes(searchLower)) {
+                    element.style.display = 'block';
+                    if (searchTerm !== '') {
+                        highlightText(element, searchTerm);
+                    } else {
+                        removeHighlights(element);
+                    }
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        function highlightText(element, searchTerm) {
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            element.innerHTML = element.innerHTML.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function removeHighlights(element) {
+            const highlights = element.querySelectorAll('.highlight');
+            highlights.forEach(highlight => {
+                highlight.outerHTML = highlight.innerHTML;
+            });
+        }
+
+        // Interactive demo functions
+        function showComparison() {
+            const result = document.getElementById('comparison-result');
+            result.style.display = result.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showObjectFlow() {
+            const result = document.getElementById('object-flow-result');
+            result.style.display = result.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showFieldProperties() {
+            const result = document.getElementById('field-properties-result');
+            result.style.display = result.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showQueryExample() {
+            const result = document.getElementById('query-example-result');
+            result.style.display = result.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showReportCalculations() {
+            const result = document.getElementById('report-calculations-result');
+            result.style.display = result.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showValidationExamples() {
+            const result = document.getElementById('validation-examples-result');
+            result.style.display = result.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showIntegrationExamples() {
+            const result = document.getElementById('integration-examples-result');
+            result.style.display = result.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
