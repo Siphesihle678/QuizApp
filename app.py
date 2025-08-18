@@ -24,6 +24,7 @@ def init_db():
             time_used INTEGER NOT NULL,
             answers TEXT NOT NULL,
             incorrect_answers TEXT NOT NULL,
+            quiz_type TEXT DEFAULT 'database',
             submission_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -39,7 +40,7 @@ def index():
     <!DOCTYPE html>
     <html>
     <head>
-        <title>CAT Database Quiz System</title>
+        <title>CAT Quiz System</title>
         <style>
             body { 
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -49,7 +50,7 @@ def index():
                 min-height: 100vh;
             }
             .container { 
-                max-width: 1000px; 
+                max-width: 1200px; 
                 margin: 0 auto; 
                 padding: 40px 20px;
             }
@@ -120,6 +121,12 @@ def index():
             .btn-notes:hover {
                 box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3);
             }
+            .btn-excel {
+                background: linear-gradient(135deg, #fd7e14, #e55a00);
+            }
+            .btn-excel:hover {
+                box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3);
+            }
             .features {
                 background: rgba(255,255,255,0.1);
                 border-radius: 20px;
@@ -157,15 +164,21 @@ def index():
     <body>
         <div class="container">
             <div class="header">
-                <h1>📊 CAT Database Quiz System</h1>
-                <p>Grade 11 CAT - Microsoft Access Database Learning Platform</p>
+                <h1>📊 CAT Quiz System</h1>
+                <p>Grade 11 CAT - Database & Excel Learning Platform</p>
             </div>
             
             <div class="cards">
                 <div class="card">
-                    <h3>📝 Take Quiz</h3>
-                    <p>Complete the 25-question pre-assessment quiz to evaluate your database knowledge. 30-minute timed assessment with immediate feedback.</p>
-                    <a href="/quiz" class="btn">Start Quiz</a>
+                    <h3>🗄️ Database Quiz</h3>
+                    <p>Complete the 25-question pre-assessment quiz to evaluate your Microsoft Access database knowledge. 30-minute timed assessment with immediate feedback.</p>
+                    <a href="/quiz" class="btn">Start Database Quiz</a>
+                </div>
+                
+                <div class="card">
+                    <h3>📈 Excel Quiz</h3>
+                    <p>Test your Excel skills with the Marks Analysis quiz. Practice functions like SUM, AVERAGE, IF, COUNTIF, and more with instant feedback.</p>
+                    <a href="/excel-quiz" class="btn btn-excel">Start Excel Quiz</a>
                 </div>
                 
                 <div class="card">
@@ -187,7 +200,7 @@ def index():
                     <div class="feature">
                         <div class="feature-icon">⏱️</div>
                         <h3>Timed Assessment</h3>
-                        <p>30-minute quiz with real-time progress tracking</p>
+                        <p>30-minute database quiz with real-time progress tracking</p>
                     </div>
                     <div class="feature">
                         <div class="feature-icon">📱</div>
@@ -201,18 +214,18 @@ def index():
                     </div>
                     <div class="feature">
                         <div class="feature-icon">📊</div>
-                        <h3>Detailed Analytics</h3>
-                        <p>Comprehensive performance analysis and reporting</p>
+                        <h3>Excel Practice</h3>
+                        <p>Auto-graded Excel quiz with instant feedback</p>
                     </div>
                     <div class="feature">
-                        <div class="feature-icon">💾</div>
-                        <h3>Data Export</h3>
-                        <p>Export results to CSV for further analysis</p>
+                        <div class="feature-icon">📈</div>
+                        <h3>Performance Analytics</h3>
+                        <p>Detailed student performance tracking and analysis</p>
                     </div>
                     <div class="feature">
                         <div class="feature-icon">🌐</div>
                         <h3>Online Access</h3>
-                        <p>Access from anywhere with internet connection</p>
+                        <p>Accessible from anywhere with internet connection</p>
                     </div>
                 </div>
             </div>
@@ -257,6 +270,43 @@ def quiz():
     )
     
     return quiz_html
+
+@app.route('/excel-quiz')
+def excel_quiz():
+    # Serve the enhanced Excel quiz HTML file
+    with open('CAT_Excel_Marks_Analysis_Quiz_Enhanced.html', 'r', encoding='utf-8') as f:
+        excel_quiz_html = f.read()
+    
+    # Replace the localStorage submission with API call
+    excel_quiz_html = excel_quiz_html.replace(
+        'function submitToBackend(quizData) {',
+        '''function submitToBackend(quizData) {
+            // Submit to Railway backend API
+            fetch('/api/submit-excel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(quizData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Quiz submitted successfully');
+                } else {
+                    console.error('Error submitting quiz:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback to localStorage
+                const submissions = JSON.parse(localStorage.getItem('quizSubmissions') || '[]');
+                submissions.push(quizData);
+                localStorage.setItem('quizSubmissions', JSON.stringify(submissions));
+            });'''
+    )
+    
+    return excel_quiz_html
 
 @app.route('/notes')
 def notes():
@@ -330,8 +380,8 @@ def submit_quiz():
         cursor.execute('''
             INSERT INTO quiz_submissions 
             (student_name, student_email, student_grade, score, total_questions, 
-             percentage, time_used, answers, incorrect_answers)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             percentage, time_used, answers, incorrect_answers, quiz_type)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             data['studentName'],
             data['studentEmail'],
@@ -341,7 +391,51 @@ def submit_quiz():
             data['percentage'],
             data['timeUsed'],
             json.dumps(data['answers']),
-            json.dumps(data['incorrectAnswers'])
+            json.dumps(data['incorrectAnswers']),
+            'database'
+        ))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'success': True, 'message': 'Quiz submitted successfully'})
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/submit-excel', methods=['POST'])
+def submit_excel_quiz():
+    try:
+        data = request.get_json()
+        
+        # Validate required fields
+        required_fields = ['studentName', 'studentEmail', 'studentGrade', 'score', 
+                          'totalQuestions', 'percentage', 'timeUsed', 'answers', 'incorrectAnswers']
+        
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'success': False, 'error': f'Missing required field: {field}'}), 400
+        
+        # Store in database
+        conn = sqlite3.connect('quiz_results.db')
+        cursor = conn.cursor()
+        
+        cursor.execute('''
+            INSERT INTO quiz_submissions 
+            (student_name, student_email, student_grade, score, total_questions, 
+             percentage, time_used, answers, incorrect_answers, quiz_type)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            data['studentName'],
+            data['studentEmail'],
+            data['studentGrade'],
+            data['score'],
+            data['totalQuestions'],
+            data['percentage'],
+            data['timeUsed'],
+            json.dumps(data['answers']),
+            json.dumps(data['incorrectAnswers']),
+            'excel'
         ))
         
         conn.commit()
@@ -360,7 +454,7 @@ def get_results():
         
         cursor.execute('''
             SELECT student_name, student_email, student_grade, score, total_questions,
-                   percentage, time_used, answers, incorrect_answers, submission_time
+                   percentage, time_used, answers, incorrect_answers, quiz_type, submission_time
             FROM quiz_submissions
             ORDER BY submission_time DESC
         ''')

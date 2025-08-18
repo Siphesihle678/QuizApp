@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Excel Marks Analysis — Auto-Graded Quiz</title>
+  <style>
+    :root{--bg:#f7fafc;--card:#ffffff;--accent:#0f766e;--muted:#64748b}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg);color:#0f172a}
+    .container{max-width:900px;margin:20px auto;padding:16px}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:4px 0 12px;color:var(--muted)}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.06);}
+    .question{padding:12px;border-radius:8px;margin-bottom:10px;border:1px solid #eef2f7}
+    label.qtitle{display:block;font-weight:600;margin-bottom:6px}
+    textarea, input[type="text"], select{width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #e2e8f0;font-size:14px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+    button.secondary{background:#334155}
+    .score{font-weight:700;font-size:18px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="card" style="padding:12px;display:flex;align-items:center;gap:12px">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M3 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H8l-2 2H5a2 2 0 0 1-2-2V7z" stroke="#0f766e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <h1>Excel — Student Marks Analysis (Auto-graded)</h1>
+          <p class="lead">Answer the questions based on the concepts covered in the lesson, not the activity steps. Press <strong>Check Answers</strong> for instant feedback.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <form id="quiz">
+        <div class="question"><label class="qtitle">1) What does the SUM function do in Excel?</label><textarea id="q1" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">2) Write the formula to calculate the average of cells D2 to F2.</label><input type="text" id="q2" /></div>
+        <div class="question"><label class="qtitle">3) How would you use IF to display "Pass" if a score in H2 is 50 or more, otherwise "Fail"?</label><input type="text" id="q3" /></div>
+        <div class="question"><label class="qtitle">4) Explain what a nested IF formula is used for.</label><textarea id="q4" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">5) Which function would you use to find the highest score in a column?</label><input type="text" id="q5" /></div>
+        <div class="question"><label class="qtitle">6) Describe how COUNTIF works and give one example.</label><textarea id="q6" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">7) What does CONCATENATE do?</label><textarea id="q7" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">8) Which function can retrieve data from another table based on a matching value?</label><input type="text" id="q8" /></div>
+        <div class="question"><label class="qtitle">9) How would you highlight all scores below 40 using Conditional Formatting?</label><textarea id="q9" rows="2"></textarea></div>
+
+        <div class="controls">
+          <button type="button" id="check">Check Answers</button>
+        </div>
+      </form>
+
+      <div id="out" style="margin-top:12px"></div>
+    </main>
+  </div>
+
+  <script>
+    const answers = [
+      "It adds up the numbers in the selected cells.",
+      "=AVERAGE(D2:F2)",
+      "=IF(H2>=50,\"Pass\",\"Fail\")",
+      "A formula that uses multiple IF statements inside each other to test several conditions.",
+      "=MAX(column_range)",
+      "Counts the number of cells that meet a condition, e.g., =COUNTIF(A1:A10,\">50\")",
+      "Combines text from two or more cells into one.",
+      "VLOOKUP",
+      "Select the cells → Conditional Formatting → New Rule → Cell Value < 40 → Apply formatting."
+    ];
+
+    document.getElementById('check').addEventListener('click', ()=>{
+      const out = document.getElementById('out'); out.innerHTML='';
+      let total=0;
+      answers.forEach((ans, i)=>{
+        const val = document.getElementById(`q${i+1}`).value.trim().toLowerCase();
+        if(val === ans.toLowerCase()) total++;
+      });
+      out.innerHTML = `<div class='card'><div class='score'>Score: ${total}/${answers.length}</div></div>`;
+    });
+  </script>
+</body>
+</html>

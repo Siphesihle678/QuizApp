@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard - Database Quiz Results</title>
+            <title>Teacher Dashboard - CAT Quiz Results</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -30,6 +30,29 @@
             margin: 0;
             font-size: 2.5em;
             font-weight: 300;
+        }
+        .quiz-tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .quiz-tab {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .quiz-tab.active {
+            background: white;
+            color: #2c3e50;
+        }
+        .quiz-tab:hover {
+            background: rgba(255,255,255,0.3);
         }
         .header p {
             margin: 10px 0 0 0;
@@ -296,7 +319,11 @@
     <div class="container">
         <div class="header">
             <h1>📊 Teacher Dashboard</h1>
-            <p>Database Pre-Assessment Quiz Results & Analytics</p>
+            <p>CAT Quiz Results & Analytics</p>
+            <div class="quiz-tabs">
+                <button class="quiz-tab active" onclick="switchQuiz('database')">🗄️ Database Quiz</button>
+                <button class="quiz-tab" onclick="switchQuiz('excel')">📈 Excel Quiz</button>
+            </div>
         </div>
 
         <div class="stats-grid" id="statsGrid">
@@ -398,6 +425,7 @@
     <script>
         let allSubmissions = [];
         let filteredSubmissions = [];
+        let currentQuizType = 'database';
 
         // Load data on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -405,9 +433,27 @@
             setupFilters();
         });
 
+        function switchQuiz(quizType) {
+            currentQuizType = quizType;
+            
+            // Update tab styling
+            document.querySelectorAll('.quiz-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update header text
+            const headerText = quizType === 'database' ? 'Database Quiz Results & Analytics' : 'Excel Quiz Results & Analytics';
+            document.querySelector('.header p').textContent = headerText;
+            
+            // Reload data for the selected quiz type
+            loadData();
+        }
+
         function loadData() {
             // Load from localStorage (in production, this would be from your Railway backend)
-            const storedData = localStorage.getItem('quizSubmissions');
+            const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
+            const storedData = localStorage.getItem(storageKey);
             allSubmissions = storedData ? JSON.parse(storedData) : [];
             filteredSubmissions = [...allSubmissions];
             

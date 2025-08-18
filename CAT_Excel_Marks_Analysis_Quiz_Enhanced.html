@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Excel Marks Analysis — Auto-Graded Quiz</title>
+  <style>
+    :root{--bg:#f7fafc;--card:#ffffff;--accent:#0f766e;--muted:#64748b}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg);color:#0f172a}
+    .container{max-width:900px;margin:20px auto;padding:16px}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:4px 0 12px;color:var(--muted)}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.06);}
+    .question{padding:12px;border-radius:8px;margin-bottom:10px;border:1px solid #eef2f7}
+    label.qtitle{display:block;font-weight:600;margin-bottom:6px}
+    textarea, input[type="text"], select{width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #e2e8f0;font-size:14px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+    button.secondary{background:#334155}
+    .score{font-weight:700;font-size:18px}
+    
+    /* Student Info Styles */
+    .student-info {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+    }
+    .student-info h3 {
+        margin: 0 0 12px 0;
+        color: #495057;
+        font-size: 16px;
+    }
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #495057;
+        font-size: 14px;
+    }
+    .form-group input, .form-group select {
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    
+    /* Timer Styles */
+    .timer {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 600;
+        color: #856404;
+    }
+    .timer.warning {
+        background: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+        background: #e9ecef;
+        border-radius: 10px;
+        height: 8px;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #28a745, #20c997);
+        transition: width 0.3s ease;
+        border-radius: 10px;
+    }
+    
+    /* Quiz Container */
+    .quiz-container {
+        display: none;
+    }
+    .quiz-container.active {
+        display: block;
+    }
+    
+    /* Results Styles */
+    .results {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 20px;
+        text-align: center;
+    }
+    .results h3 {
+        margin: 0 0 12px 0;
+        color: #155724;
+    }
+    .score-display {
+        font-size: 24px;
+        font-weight: 700;
+        color: #155724;
+        margin-bottom: 8px;
+    }
+    .feedback {
+        color: #155724;
+        font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="card" style="padding:12px;display:flex;align-items:center;gap:12px">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M3 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H8l-2 2H5a2 2 0 0 1-2-2V7z" stroke="#0f766e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <h1>Excel — Student Marks Analysis Quiz</h1>
+          <p class="lead">Test your Excel skills with this auto-graded quiz. Answer questions about Excel functions and get instant feedback.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Student Information Form -->
+    <div class="card" id="studentForm">
+      <h3>📝 Student Information</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="studentName">Full Name *</label>
+          <input type="text" id="studentName" required>
+        </div>
+        <div class="form-group">
+          <label for="studentEmail">Email Address *</label>
+          <input type="email" id="studentEmail" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="studentGrade">Grade *</label>
+          <select id="studentGrade" required>
+            <option value="">Select Grade</option>
+            <option value="10">Grade 10</option>
+            <option value="11">Grade 11</option>
+            <option value="12">Grade 12</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <button type="button" id="startQuiz" style="width: 100%;">Start Excel Quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timer and Progress -->
+    <div class="timer" id="timer" style="display: none;">
+      <div>⏱️ Time Remaining: <span id="timeDisplay">15:00</span></div>
+    </div>
+    
+    <div class="progress-container" id="progressContainer" style="display: none;">
+      <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    </div>
+
+    <!-- Quiz Content -->
+    <main class="card quiz-container" id="quizContainer">
+      <form id="quiz">
+        <div class="question"><label class="qtitle">1) What does the SUM function do in Excel?</label><textarea id="q1" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">2) Write the formula to calculate the average of cells D2 to F2.</label><input type="text" id="q2" /></div>
+        <div class="question"><label class="qtitle">3) How would you use IF to display "Pass" if a score in H2 is 50 or more, otherwise "Fail"?</label><input type="text" id="q3" /></div>
+        <div class="question"><label class="qtitle">4) Explain what a nested IF formula is used for.</label><textarea id="q4" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">5) Which function would you use to find the highest score in a column?</label><input type="text" id="q5" /></div>
+        <div class="question"><label class="qtitle">6) Describe how COUNTIF works and give one example.</label><textarea id="q6" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">7) What does CONCATENATE do?</label><textarea id="q7" rows="2"></textarea></div>
+        <div class="question"><label class="qtitle">8) Which function can retrieve data from another table based on a matching value?</label><input type="text" id="q8" /></div>
+        <div class="question"><label class="qtitle">9) How would you highlight all scores below 40 using Conditional Formatting?</label><textarea id="q9" rows="2"></textarea></div>
+
+        <div class="controls">
+          <button type="button" id="check">Check Answers</button>
+          <button type="button" id="submit" style="display: none;">Submit Quiz</button>
+        </div>
+      </form>
+
+      <div id="out" style="margin-top:12px"></div>
+    </main>
+  </div>
+
+  <script>
+    const answers = [
+      "It adds up the numbers in the selected cells.",
+      "=AVERAGE(D2:F2)",
+      "=IF(H2>=50,\"Pass\",\"Fail\")",
+      "A formula that uses multiple IF statements inside each other to test several conditions.",
+      "=MAX(column_range)",
+      "Counts the number of cells that meet a condition, e.g., =COUNTIF(A1:A10,\">50\")",
+      "Combines text from two or more cells into one.",
+      "VLOOKUP",
+      "Select the cells → Conditional Formatting → New Rule → Cell Value < 40 → Apply formatting."
+    ];
+
+    let startTime = null;
+    let timerInterval = null;
+    const quizDuration = 15 * 60; // 15 minutes in seconds
+
+    // Start Quiz Button
+    document.getElementById('startQuiz').addEventListener('click', function() {
+      const name = document.getElementById('studentName').value.trim();
+      const email = document.getElementById('studentEmail').value.trim();
+      const grade = document.getElementById('studentGrade').value;
+
+      if (!name || !email || !grade) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      // Hide student form and show quiz
+      document.getElementById('studentForm').style.display = 'none';
+      document.getElementById('quizContainer').classList.add('active');
+      document.getElementById('timer').style.display = 'block';
+      document.getElementById('progressContainer').style.display = 'block';
+
+      // Start timer
+      startTime = Date.now();
+      startTimer();
+    });
+
+    // Timer function
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const remaining = quizDuration - elapsed;
+        
+        if (remaining <= 0) {
+          clearInterval(timerInterval);
+          submitQuiz();
+          return;
+        }
+
+        const minutes = Math.floor(remaining / 60);
+        const seconds = remaining % 60;
+        document.getElementById('timeDisplay').textContent = 
+          `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        // Warning when less than 5 minutes remaining
+        if (remaining < 300) {
+          document.getElementById('timer').classList.add('warning');
+        }
+
+        // Update progress bar
+        const progress = ((quizDuration - remaining) / quizDuration) * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+      }, 1000);
+    }
+
+    // Check Answers Button
+    document.getElementById('check').addEventListener('click', function() {
+      const out = document.getElementById('out');
+      out.innerHTML = '';
+      let total = 0;
+      let correctAnswers = [];
+      let incorrectAnswers = [];
+
+      answers.forEach((ans, i) => {
+        const val = document.getElementById(`q${i+1}`).value.trim().toLowerCase();
+        const correct = ans.toLowerCase();
+        
+        if (val === correct) {
+          total++;
+          correctAnswers.push(i + 1);
+        } else {
+          incorrectAnswers.push({
+            question: i + 1,
+            studentAnswer: val,
+            correctAnswer: ans
+          });
+        }
+      });
+
+      const percentage = Math.round((total / answers.length) * 100);
+      
+      out.innerHTML = `
+        <div class='results'>
+          <h3>Quiz Results</h3>
+          <div class='score-display'>Score: ${total}/${answers.length} (${percentage}%)</div>
+          <div class='feedback'>
+            ${total === answers.length ? '🎉 Perfect! All answers correct!' : 
+              `You got ${total} out of ${answers.length} questions correct.`}
+          </div>
+        </div>
+      `;
+
+      // Show submit button
+      document.getElementById('submit').style.display = 'inline-block';
+    });
+
+    // Submit Quiz Button
+    document.getElementById('submit').addEventListener('click', submitQuiz);
+
+    function submitQuiz() {
+      clearInterval(timerInterval);
+      
+      const name = document.getElementById('studentName').value.trim();
+      const email = document.getElementById('studentEmail').value.trim();
+      const grade = document.getElementById('studentGrade').value;
+      
+      let total = 0;
+      let studentAnswers = [];
+      let incorrectAnswers = [];
+
+      answers.forEach((ans, i) => {
+        const val = document.getElementById(`q${i+1}`).value.trim();
+        studentAnswers.push(val);
+        
+        if (val.toLowerCase() === ans.toLowerCase()) {
+          total++;
+        } else {
+          incorrectAnswers.push({
+            question: i + 1,
+            studentAnswer: val,
+            correctAnswer: ans
+          });
+        }
+      });
+
+      const percentage = Math.round((total / answers.length) * 100);
+      const timeUsed = Math.floor((Date.now() - startTime) / 1000);
+
+      const quizData = {
+        studentName: name,
+        studentEmail: email,
+        studentGrade: grade,
+        score: total,
+        totalQuestions: answers.length,
+        percentage: percentage,
+        timeUsed: timeUsed,
+        answers: studentAnswers,
+        incorrectAnswers: incorrectAnswers,
+        quizType: 'Excel'
+      };
+
+      // Submit to backend
+      submitToBackend(quizData);
+
+      // Show final results
+      document.getElementById('out').innerHTML = `
+        <div class='results'>
+          <h3>🎉 Quiz Completed!</h3>
+          <div class='score-display'>Final Score: ${total}/${answers.length} (${percentage}%)</div>
+          <div class='feedback'>
+            Time used: ${Math.floor(timeUsed / 60)}:${(timeUsed % 60).toString().padStart(2, '0')}<br>
+            Your results have been saved successfully!
+          </div>
+        </div>
+      `;
+
+      // Disable form
+      document.querySelectorAll('#quiz input, #quiz textarea').forEach(input => {
+        input.disabled = true;
+      });
+      document.getElementById('check').disabled = true;
+      document.getElementById('submit').disabled = true;
+    }
+
+    function submitToBackend(quizData) {
+      // Submit to Railway backend API
+      fetch('/api/submit-excel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(quizData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('Quiz submitted successfully');
+        } else {
+          console.error('Error submitting quiz:', data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Fallback to localStorage
+        const submissions = JSON.parse(localStorage.getItem('excelQuizSubmissions') || '[]');
+        submissions.push(quizData);
+        localStorage.setItem('excelQuizSubmissions', JSON.stringify(submissions));
+      });
+    }
+  </script>
+</body>
+</html>

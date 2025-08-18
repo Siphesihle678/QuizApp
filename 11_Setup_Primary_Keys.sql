@@ -1,0 +1,26 @@
+-- After creating all tables, set up Primary Keys in Microsoft Access:
+-- 
+-- 1. Go to "All Access Objects" → "Tables"
+-- 2. Right-click on "Students" table → "Design View"
+-- 3. Click on "StudentID" field
+-- 4. In the "Field Properties" at the bottom, set:
+--    - "Indexed" = "Yes (No Duplicates)"
+--    - "Required" = "Yes"
+-- 5. Save the table
+-- 
+-- Repeat for other tables:
+-- 
+-- Books table:
+-- - Set "BookID" as primary key (Indexed = "Yes (No Duplicates)")
+-- - Set "ISBN" as unique (Indexed = "Yes (No Duplicates)")
+-- 
+-- Categories table:
+-- - Set "CategoryID" as primary key (Indexed = "Yes (No Duplicates)")
+-- - Set "CategoryName" as unique (Indexed = "Yes (No Duplicates)")
+-- 
+-- Borrowings table:
+-- - Set "BorrowingID" as primary key (Indexed = "Yes (No Duplicates)")
+-- 
+-- BookCategories table:
+-- - Set both "BookID" and "CategoryID" as composite primary key
+--   (Select both fields, right-click → "Primary Key")
