@@ -70,8 +70,8 @@ def index():
             }
             .cards {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 30px;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
                 margin-bottom: 40px;
             }
             .card {
@@ -184,7 +184,13 @@ def index():
                 <div class="card">
                     <h3>📚 Study Notes</h3>
                     <p>Access comprehensive, interactive notes covering all Microsoft Access database concepts. Perfect for self-study and revision.</p>
-                    <a href="/notes" class="btn btn-notes">View Notes</a>
+                    <a href="/notes" class="btn btn-notes">View Database Notes</a>
+                </div>
+                
+                <div class="card">
+                    <h3>📊 Excel Notes</h3>
+                    <p>Comprehensive Excel study guide covering functions, formulas, and practical examples. Perfect for Excel quiz preparation.</p>
+                    <a href="/excel-notes" class="btn btn-excel">View Excel Notes</a>
                 </div>
                 
                 <div class="card">
@@ -314,6 +320,13 @@ def notes():
     with open('CAT_Database_Enhanced_Notes.html', 'r', encoding='utf-8') as f:
         notes_html = f.read()
     return notes_html
+
+@app.route('/excel-notes')
+def excel_notes():
+    # Serve the Excel study notes HTML file
+    with open('CAT_Excel_Study_Notes.html', 'r', encoding='utf-8') as f:
+        excel_notes_html = f.read()
+    return excel_notes_html
 
 @app.route('/dashboard')
 def dashboard():

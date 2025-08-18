@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Study Notes - CAT Grade 11</title>
+    <style>
+        :root {
+            --primary-color: #fd7e14;
+            --secondary-color: #e55a00;
+            --accent-color: #ff8c42;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --border-color: #e9ecef;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 15px;
+            background: var(--bg-light);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: var(--text-dark);
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .function-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .function-name {
+            font-weight: bold;
+            color: var(--success-color);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .function-syntax {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            color: var(--text-dark);
+            margin: 10px 0;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .example {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #007bff;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 8px;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .tip-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .warning-title {
+            font-weight: bold;
+            color: #721c24;
+            margin-bottom: 8px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--bg-light);
+        }
+
+        .toc {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .toc h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .toc a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .practice-section {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .practice-title {
+            color: #155724;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--text-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text-dark);
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Excel Study Notes</h1>
+            <p>Comprehensive Guide to Excel Functions and Formulas</p>
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search functions and concepts...">
+                <span class="search-icon">🔍</span>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <!-- Basic Functions Section -->
+                <div class="section" id="basic-functions">
+                    <h2>🔢 Basic Mathematical Functions</h2>
+                    
+                    <div class="function-card">
+                        <div class="function-name">SUM Function</div>
+                        <p><strong>Purpose:</strong> Adds up all the numbers in a specified range of cells.</p>
+                        <div class="function-syntax">=SUM(number1, [number2], ...)</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=SUM(A1:A10)</code> - Adds all values from cell A1 to A10</p>
+                            <p><code>=SUM(5, 10, 15)</code> - Adds the numbers 5, 10, and 15</p>
+                        </div>
+                        <div class="tip">
+                            <div class="tip-title">💡 Tip:</div>
+                            <p>You can also use <code>=SUM(A1:A10, B1:B5)</code> to add multiple ranges at once.</p>
+                        </div>
+                    </div>
+
+                    <div class="function-card">
+                        <div class="function-name">AVERAGE Function</div>
+                        <p><strong>Purpose:</strong> Calculates the arithmetic mean of a group of numbers.</p>
+                        <div class="function-syntax">=AVERAGE(number1, [number2], ...)</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=AVERAGE(D2:F2)</code> - Calculates the average of cells D2, E2, and F2</p>
+                            <p><code>=AVERAGE(A1:A20)</code> - Calculates the average of 20 cells</p>
+                        </div>
+                        <div class="tip">
+                            <div class="tip-title">💡 Tip:</div>
+                            <p>The AVERAGE function automatically ignores text and empty cells in the range.</p>
+                        </div>
+                    </div>
+
+                    <div class="function-card">
+                        <div class="function-name">MAX Function</div>
+                        <p><strong>Purpose:</strong> Returns the largest value in a set of values.</p>
+                        <div class="function-syntax">=MAX(number1, [number2], ...)</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=MAX(A1:A50)</code> - Finds the highest score in column A</p>
+                            <p><code>=MAX(10, 25, 5, 30)</code> - Returns 30</p>
+                        </div>
+                    </div>
+
+                    <div class="function-card">
+                        <div class="function-name">MIN Function</div>
+                        <p><strong>Purpose:</strong> Returns the smallest value in a set of values.</p>
+                        <div class="function-syntax">=MIN(number1, [number2], ...)</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=MIN(B1:B100)</code> - Finds the lowest value in column B</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logical Functions Section -->
+                <div class="section" id="logical-functions">
+                    <h2>🤔 Logical Functions</h2>
+                    
+                    <div class="function-card">
+                        <div class="function-name">IF Function</div>
+                        <p><strong>Purpose:</strong> Performs a logical test and returns one value if TRUE, another if FALSE.</p>
+                        <div class="function-syntax">=IF(logical_test, value_if_true, value_if_false)</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=IF(H2>=50, "Pass", "Fail")</code> - Shows "Pass" if score is 50 or more, "Fail" otherwise</p>
+                            <p><code>=IF(A1>0, A1*2, 0)</code> - Doubles the value if positive, returns 0 if not</p>
+                        </div>
+                        <div class="tip">
+                            <div class="tip-title">💡 Tip:</div>
+                            <p>You can nest IF functions for multiple conditions: <code>=IF(A1>80, "A", IF(A1>60, "B", "C"))</code></p>
+                        </div>
+                    </div>
+
+                    <div class="function-card">
+                        <div class="function-name">Nested IF Functions</div>
+                        <p><strong>Purpose:</strong> Multiple IF statements inside each other to test several conditions.</p>
+                        <div class="function-syntax">=IF(condition1, result1, IF(condition2, result2, result3))</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <div class="code-block">
+=IF(score>=90, "A+",
+  IF(score>=80, "A",
+    IF(score>=70, "B",
+      IF(score>=60, "C", "F"))))
+                            </div>
+                        </div>
+                        <div class="warning">
+                            <div class="warning-title">⚠️ Warning:</div>
+                            <p>Too many nested IFs can make formulas hard to read. Consider using VLOOKUP or IFS (Excel 2019+) for complex scenarios.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Counting Functions Section -->
+                <div class="section" id="counting-functions">
+                    <h2>📊 Counting Functions</h2>
+                    
+                    <div class="function-card">
+                        <div class="function-name">COUNTIF Function</div>
+                        <p><strong>Purpose:</strong> Counts the number of cells that meet a specific condition.</p>
+                        <div class="function-syntax">=COUNTIF(range, criteria)</div>
+                        <div class="example">
+                            <div class="example-title">Examples:</div>
+                            <p><code>=COUNTIF(A1:A10, ">50")</code> - Counts cells with values greater than 50</p>
+                            <p><code>=COUNTIF(B1:B20, "Pass")</code> - Counts cells containing "Pass"</p>
+                            <p><code>=COUNTIF(C1:C100, "*")</code> - Counts non-empty cells</p>
+                        </div>
+                        <div class="tip">
+                            <div class="tip-title">💡 Tip:</div>
+                            <p>Use wildcards: <code>*</code> for any characters, <code>?</code> for single character.</p>
+                        </div>
+                    </div>
+
+                    <div class="function-card">
+                        <div class="function-name">COUNT Function</div>
+                        <p><strong>Purpose:</strong> Counts the number of cells that contain numbers.</p>
+                        <div class="function-syntax">=COUNT(value1, [value2], ...)</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=COUNT(A1:A100)</code> - Counts how many cells contain numbers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Functions Section -->
+                <div class="section" id="text-functions">
+                    <h2>📝 Text Functions</h2>
+                    
+                    <div class="function-card">
+                        <div class="function-name">CONCATENATE Function</div>
+                        <p><strong>Purpose:</strong> Combines text from two or more cells into one cell.</p>
+                        <div class="function-syntax">=CONCATENATE(text1, [text2], ...)</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=CONCATENATE(A1, " ", B1)</code> - Combines first name and last name with a space</p>
+                            <p><code>=CONCATENATE("Grade: ", C1)</code> - Adds "Grade: " before a value</p>
+                        </div>
+                        <div class="tip">
+                            <div class="tip-title">💡 Tip:</div>
+                            <p>In newer Excel versions, you can use the <code>&</code> operator: <code>=A1&" "&B1</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lookup Functions Section -->
+                <div class="section" id="lookup-functions">
+                    <h2>🔍 Lookup Functions</h2>
+                    
+                    <div class="function-card">
+                        <div class="function-name">VLOOKUP Function</div>
+                        <p><strong>Purpose:</strong> Searches for a value in the first column of a table and returns a value in the same row from another column.</p>
+                        <div class="function-syntax">=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])</div>
+                        <div class="example">
+                            <div class="example-title">Example:</div>
+                            <p><code>=VLOOKUP("John", A1:C10, 2, FALSE)</code> - Looks for "John" in column A and returns the value from column B</p>
+                        </div>
+                        <div class="warning">
+                            <div class="warning-title">⚠️ Important:</div>
+                            <p>VLOOKUP searches from left to right only. The lookup value must be in the leftmost column of the table.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conditional Formatting Section -->
+                <div class="section" id="conditional-formatting">
+                    <h2>🎨 Conditional Formatting</h2>
+                    
+                    <div class="function-card">
+                        <div class="function-name">Highlighting Values</div>
+                        <p><strong>Purpose:</strong> Automatically format cells based on their values or conditions.</p>
+                        <div class="example">
+                            <div class="example-title">Steps to highlight scores below 40:</div>
+                            <ol>
+                                <li>Select the cells you want to format</li>
+                                <li>Go to <strong>Home</strong> → <strong>Conditional Formatting</strong></li>
+                                <li>Choose <strong>New Rule</strong></li>
+                                <li>Select <strong>Format only cells that contain</strong></li>
+                                <li>Set condition: <strong>Cell Value</strong> <strong>less than</strong> <strong>40</strong></li>
+                                <li>Choose formatting (e.g., red background)</li>
+                                <li>Click <strong>OK</strong></li>
+                            </ol>
+                        </div>
+                        <div class="tip">
+                            <div class="tip-title">💡 Tip:</div>
+                            <p>You can use formulas in conditional formatting for more complex conditions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Section -->
+                <div class="practice-section">
+                    <div class="practice-title">🧪 Practice Exercises</div>
+                    <p>Test your knowledge with these practical examples:</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Scenario</th>
+                                    <th>Formula</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Calculate total sales</td>
+                                    <td><code>=SUM(B2:B50)</code></td>
+                                    <td>Sum of all sales values</td>
+                                </tr>
+                                <tr>
+                                    <td>Find highest score</td>
+                                    <td><code>=MAX(C2:C30)</code></td>
+                                    <td>Highest value in range</td>
+                                </tr>
+                                <tr>
+                                    <td>Pass/Fail grading</td>
+                                    <td><code>=IF(D2>=50,"Pass","Fail")</code></td>
+                                    <td>Pass if ≥50, Fail if <50</td>
+                                </tr>
+                                <tr>
+                                    <td>Count passing students</td>
+                                    <td><code>=COUNTIF(E2:E40,"Pass")</code></td>
+                                    <td>Number of "Pass" entries</td>
+                                </tr>
+                                <tr>
+                                    <td>Combine names</td>
+                                    <td><code>=CONCATENATE(F2," ",G2)</code></td>
+                                    <td>Full name with space</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Common Mistakes Section -->
+                <div class="section" id="common-mistakes">
+                    <h2>❌ Common Mistakes to Avoid</h2>
+                    
+                    <div class="warning">
+                        <div class="warning-title">1. Forgetting Equal Sign</div>
+                        <p><strong>Wrong:</strong> <code>SUM(A1:A10)</code><br>
+                        <strong>Correct:</strong> <code>=SUM(A1:A10)</code></p>
+                    </div>
+
+                    <div class="warning">
+                        <div class="warning-title">2. Incorrect Cell References</div>
+                        <p><strong>Wrong:</strong> <code>=SUM(A1:A10, B1:B10)</code> (missing comma)<br>
+                        <strong>Correct:</strong> <code>=SUM(A1:A10,B1:B10)</code></p>
+                    </div>
+
+                    <div class="warning">
+                        <div class="warning-title">3. Text vs Numbers</div>
+                        <p>Make sure numbers are actually stored as numbers, not text. Use <code>=VALUE()</code> to convert text to numbers.</p>
+                    </div>
+
+                    <div class="warning">
+                        <div class="warning-title">4. VLOOKUP Range Issues</div>
+                        <p>Always ensure your lookup value is in the leftmost column of your table range.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="toc">
+                    <h3>📋 Table of Contents</h3>
+                    <ul>
+                        <li><a href="#basic-functions">🔢 Basic Functions</a></li>
+                        <li><a href="#logical-functions">🤔 Logical Functions</a></li>
+                        <li><a href="#counting-functions">📊 Counting Functions</a></li>
+                        <li><a href="#text-functions">📝 Text Functions</a></li>
+                        <li><a href="#lookup-functions">🔍 Lookup Functions</a></li>
+                        <li><a href="#conditional-formatting">🎨 Conditional Formatting</a></li>
+                        <li><a href="#common-mistakes">❌ Common Mistakes</a></li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3>🎯 Quick Reference</h3>
+                    <div style="background: var(--bg-light); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                        <p><strong>SUM:</strong> <code>=SUM(range)</code></p>
+                        <p><strong>AVERAGE:</strong> <code>=AVERAGE(range)</code></p>
+                        <p><strong>IF:</strong> <code>=IF(test,true,false)</code></p>
+                        <p><strong>COUNTIF:</strong> <code>=COUNTIF(range,criteria)</code></p>
+                        <p><strong>VLOOKUP:</strong> <code>=VLOOKUP(value,table,col,false)</code></p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <a href="/excel-quiz" class="btn" style="width: 100%; text-align: center; margin-bottom: 10px;">📝 Take Excel Quiz</a>
+                    <a href="/" class="btn btn-secondary" style="width: 100%; text-align: center;">🏠 Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (text.includes(searchTerm) || searchTerm === '') {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+
+        // Smooth scrolling for table of contents links
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight current section in TOC
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            const tocLinks = document.querySelectorAll('.toc a');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
