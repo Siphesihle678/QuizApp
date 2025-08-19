@@ -537,7 +537,7 @@ def teacher_dashboard():
             </div>'''
     )
     
-    # Replace localStorage loading with API call
+    # Replace the entire loadData function with API version
     dashboard_html = dashboard_html.replace(
         'function loadData() {',
         '''function loadData() {
@@ -587,7 +587,7 @@ def teacher_dashboard():
             });'''
     )
     
-    # Also replace the switchQuiz function to use API
+    # Replace the entire switchQuiz function with API version
     dashboard_html = dashboard_html.replace(
         'function switchQuiz(quizType) {',
         '''function switchQuiz(quizType) {
@@ -600,8 +600,8 @@ def teacher_dashboard():
             event.target.classList.add('active');
             
             // Update header text
-            const headerText = quizType === 'database' ? 'Database Quiz Results & Analytics' : 'Excel Quiz Results & Analytics';
-            document.querySelector('.header p').textContent = headerText;
+            const newHeaderText = quizType === 'database' ? 'Database Quiz Results & Analytics' : 'Excel Quiz Results & Analytics';
+            document.querySelector('.header p').textContent = newHeaderText;
             
             // Reload data for the selected quiz type using API
             loadData();'''

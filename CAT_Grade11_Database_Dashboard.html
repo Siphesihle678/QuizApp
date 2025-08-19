@@ -443,8 +443,8 @@
             event.target.classList.add('active');
             
             // Update header text
-            const headerText = quizType === 'database' ? 'Database Quiz Results & Analytics' : 'Excel Quiz Results & Analytics';
-            document.querySelector('.header p').textContent = headerText;
+            const newHeaderText = quizType === 'database' ? 'Database Quiz Results & Analytics' : 'Excel Quiz Results & Analytics';
+            document.querySelector('.header p').textContent = newHeaderText;
             
             // Reload data for the selected quiz type
             loadData();
