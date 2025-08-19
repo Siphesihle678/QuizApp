@@ -531,12 +531,23 @@ def teacher_dashboard():
     dashboard_html = dashboard_html.replace(
         'function loadData() {',
         '''function loadData() {
+            console.log('Loading data for quiz type:', currentQuizType);
             // Load from Railway backend API
             fetch('/api/results')
-            .then(response => response.json())
+            .then(response => {
+                console.log('API Response status:', response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log('API Response data:', data);
                 if (data.success) {
-                    allSubmissions = data.results;
+                    // Filter results based on current quiz type
+                    if (currentQuizType === 'database') {
+                        allSubmissions = data.results.filter(submission => submission.quiz_type === 'database');
+                    } else {
+                        allSubmissions = data.results.filter(submission => submission.quiz_type === 'excel');
+                    }
+                    console.log('Filtered submissions:', allSubmissions);
                     filteredSubmissions = [...allSubmissions];
                     updateStats();
                     updateTable();
@@ -544,7 +555,8 @@ def teacher_dashboard():
                 } else {
                     console.error('Error loading data:', data.error);
                     // Fallback to localStorage
-                    const storedData = localStorage.getItem('quizSubmissions');
+                    const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
+                    const storedData = localStorage.getItem(storageKey);
                     allSubmissions = storedData ? JSON.parse(storedData) : [];
                     filteredSubmissions = [...allSubmissions];
                     updateStats();
@@ -555,13 +567,34 @@ def teacher_dashboard():
             .catch(error => {
                 console.error('Error:', error);
                 // Fallback to localStorage
-                const storedData = localStorage.getItem('quizSubmissions');
+                const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
+                const storedData = localStorage.getItem(storageKey);
                 allSubmissions = storedData ? JSON.parse(storedData) : [];
                 filteredSubmissions = [...allSubmissions];
                 updateStats();
                 updateTable();
                 updateCharts();
             });'''
+    )
+    
+    # Also replace the switchQuiz function to use API
+    dashboard_html = dashboard_html.replace(
+        'function switchQuiz(quizType) {',
+        '''function switchQuiz(quizType) {
+            currentQuizType = quizType;
+            
+            // Update tab styling
+            document.querySelectorAll('.quiz-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update header text
+            const headerText = quizType === 'database' ? 'Database Quiz Results & Analytics' : 'Excel Quiz Results & Analytics';
+            document.querySelector('.header p').textContent = headerText;
+            
+            // Reload data for the selected quiz type using API
+            loadData();'''
     )
     
     return dashboard_html
@@ -768,7 +801,8 @@ def get_results():
                 'timeUsed': row[6],
                 'answers': json.loads(row[7]),
                 'incorrectAnswers': json.loads(row[8]),
-                'submissionTime': row[9]
+                'quiz_type': row[9],
+                'submissionTime': row[10]
             })
         
         return jsonify({'success': True, 'results': results})
@@ -805,6 +839,50 @@ def get_stats():
         }
         
         return jsonify({'success': True, 'stats': stats})
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/debug', methods=['GET'])
+def debug_database():
+    """Debug route to check database contents"""
+    try:
+        conn = sqlite3.connect('quiz_results.db')
+        cursor = conn.cursor()
+        
+        # Check if table exists
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='quiz_submissions'")
+        table_exists = cursor.fetchone() is not None
+        
+        if not table_exists:
+            return jsonify({
+                'success': False, 
+                'error': 'Table does not exist',
+                'message': 'The quiz_submissions table has not been created yet.'
+            })
+        
+        # Get total count
+        cursor.execute('SELECT COUNT(*) FROM quiz_submissions')
+        total_count = cursor.fetchone()[0]
+        
+        # Get sample data
+        cursor.execute('SELECT * FROM quiz_submissions LIMIT 3')
+        sample_data = cursor.fetchall()
+        
+        # Get quiz type distribution
+        cursor.execute('SELECT quiz_type, COUNT(*) FROM quiz_submissions GROUP BY quiz_type')
+        quiz_types = cursor.fetchall()
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'table_exists': table_exists,
+            'total_submissions': total_count,
+            'sample_data': sample_data,
+            'quiz_type_distribution': quiz_types,
+            'message': f'Database contains {total_count} submissions'
+        })
         
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
