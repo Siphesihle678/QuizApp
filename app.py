@@ -522,92 +522,11 @@ def teacher_dashboard():
     try:
         with open('CAT_Grade11_Database_Dashboard.html', 'r', encoding='utf-8') as f:
             dashboard_html = f.read()
+        return dashboard_html
     except FileNotFoundError:
         return "Dashboard file not found. Please check if CAT_Grade11_Database_Dashboard.html exists.", 404
     except Exception as e:
         return f"Error loading dashboard: {str(e)}", 500
-    
-    # Add logout button and teacher info to the dashboard
-    dashboard_html = dashboard_html.replace(
-        '<div class="header">',
-        '''<div class="header">
-            <div style="position: absolute; top: 20px; right: 20px;">
-                <span style="color: white; margin-right: 15px;">Welcome, Teacher!</span>
-                <a href="/teacher-logout" style="color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 5px;">Logout</a>
-            </div>'''
-    )
-    
-    # Replace the entire loadData function with API version
-    dashboard_html = dashboard_html.replace(
-        'function loadData() {',
-        '''function loadData() {
-            console.log('Loading data for quiz type:', currentQuizType);
-            // Load from Railway backend API
-            fetch('/api/results')
-            .then(response => {
-                console.log('API Response status:', response.status);
-                return response.json();
-            })
-            .then(data => {
-                console.log('API Response data:', data);
-                if (data.success) {
-                    // Filter results based on current quiz type
-                    if (currentQuizType === 'database') {
-                        allSubmissions = data.results.filter(submission => submission.quiz_type === 'database');
-                    } else {
-                        allSubmissions = data.results.filter(submission => submission.quiz_type === 'excel');
-                    }
-                    console.log('Filtered submissions:', allSubmissions);
-                    filteredSubmissions = [...allSubmissions];
-                    updateStats();
-                    updateTable();
-                    updateCharts();
-                } else {
-                    console.error('Error loading data:', data.error);
-                    // Fallback to localStorage
-                    const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
-                    const storedData = localStorage.getItem(storageKey);
-                    allSubmissions = storedData ? JSON.parse(storedData) : [];
-                    filteredSubmissions = [...allSubmissions];
-                    updateStats();
-                    updateTable();
-                    updateCharts();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Fallback to localStorage
-                const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
-                const storedData = localStorage.getItem(storageKey);
-                allSubmissions = storedData ? JSON.parse(storedData) : [];
-                filteredSubmissions = [...allSubmissions];
-                updateStats();
-                updateTable();
-                updateCharts();
-            });'''
-    )
-    
-    # Replace the entire switchQuiz function with API version
-    dashboard_html = dashboard_html.replace(
-        'function switchQuiz(quizType) {',
-        '''function switchQuiz(quizType) {
-            currentQuizType = quizType;
-            
-            // Update tab styling
-            document.querySelectorAll('.quiz-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update header text
-            const newHeaderText = quizType === 'database' ? 'Database Quiz Results & Analytics' : 'Excel Quiz Results & Analytics';
-            document.querySelector('.header p').textContent = newHeaderText;
-            
-            // Reload data for the selected quiz type using API
-            loadData();'''
-    )
-    
-    return dashboard_html
 
 @app.route('/quiz')
 def quiz():

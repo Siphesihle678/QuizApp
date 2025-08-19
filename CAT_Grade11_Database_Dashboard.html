@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Teacher Dashboard - CAT Quiz Results</title>
+    <title>Teacher Dashboard - CAT Quiz Results</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,6 +25,7 @@
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
         }
         .header h1 {
             margin: 0;
@@ -57,6 +58,26 @@
         .header p {
             margin: 10px 0 0 0;
             opacity: 0.9;
+        }
+        .teacher-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .teacher-info span {
+            color: white;
+            margin-right: 15px;
+        }
+        .teacher-info a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .teacher-info a:hover {
+            background: rgba(255,255,255,0.3);
         }
         .stats-grid {
             display: grid;
@@ -318,6 +339,10 @@
 <body>
     <div class="container">
         <div class="header">
+            <div class="teacher-info">
+                <span>Welcome, Teacher!</span>
+                <a href="/teacher-logout">Logout</a>
+            </div>
             <h1>📊 Teacher Dashboard</h1>
             <p>CAT Quiz Results & Analytics</p>
             <div class="quiz-tabs">
@@ -451,15 +476,50 @@
         }
 
         function loadData() {
-            // Load from localStorage (in production, this would be from your Railway backend)
-            const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
-            const storedData = localStorage.getItem(storageKey);
-            allSubmissions = storedData ? JSON.parse(storedData) : [];
-            filteredSubmissions = [...allSubmissions];
-            
-            updateStats();
-            updateTable();
-            updateCharts();
+            console.log('Loading data for quiz type:', currentQuizType);
+            // Load from Railway backend API
+            fetch('/api/results')
+            .then(response => {
+                console.log('API Response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('API Response data:', data);
+                if (data.success) {
+                    // Filter results based on current quiz type
+                    if (currentQuizType === 'database') {
+                        allSubmissions = data.results.filter(submission => submission.quiz_type === 'database');
+                    } else {
+                        allSubmissions = data.results.filter(submission => submission.quiz_type === 'excel');
+                    }
+                    console.log('Filtered submissions:', allSubmissions);
+                    filteredSubmissions = [...allSubmissions];
+                    updateStats();
+                    updateTable();
+                    updateCharts();
+                } else {
+                    console.error('Error loading data:', data.error);
+                    // Fallback to localStorage
+                    const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
+                    const storedData = localStorage.getItem(storageKey);
+                    allSubmissions = storedData ? JSON.parse(storedData) : [];
+                    filteredSubmissions = [...allSubmissions];
+                    updateStats();
+                    updateTable();
+                    updateCharts();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback to localStorage
+                const storageKey = currentQuizType === 'database' ? 'quizSubmissions' : 'excelQuizSubmissions';
+                const storedData = localStorage.getItem(storageKey);
+                allSubmissions = storedData ? JSON.parse(storedData) : [];
+                filteredSubmissions = [...allSubmissions];
+                updateStats();
+                updateTable();
+                updateCharts();
+            });
         }
 
         function setupFilters() {
