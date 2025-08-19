@@ -1,12 +1,19 @@
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template_string, session, redirect, url_for
 from flask_cors import CORS
 import json
 import os
 from datetime import datetime
 import sqlite3
+import hashlib
 
 app = Flask(__name__)
+app.secret_key = 'your-secret-key-change-this-in-production'  # Change this in production
 CORS(app)
+
+# Teacher credentials (in production, use a proper database)
+TEACHER_CREDENTIALS = {
+    'admin': hashlib.sha256('password123'.encode()).hexdigest()  # Change this password
+}
 
 # Database setup
 def init_db():
@@ -33,6 +40,15 @@ def init_db():
 
 # Initialize database on startup
 init_db()
+
+# Login required decorator
+def login_required(f):
+    def decorated_function(*args, **kwargs):
+        if 'teacher_logged_in' not in session:
+            return redirect(url_for('teacher_login'))
+        return f(*args, **kwargs)
+    decorated_function.__name__ = f.__name__
+    return decorated_function
 
 @app.route('/')
 def index():
@@ -159,6 +175,19 @@ def index():
                 opacity: 0.9;
                 font-size: 0.9em;
             }
+            .teacher-link {
+                text-align: center;
+                margin-top: 30px;
+            }
+            .teacher-link a {
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 0.9em;
+                transition: color 0.3s;
+            }
+            .teacher-link a:hover {
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -191,12 +220,6 @@ def index():
                     <h3>📊 Excel Notes</h3>
                     <p>Comprehensive Excel study guide covering functions, formulas, and practical examples. Perfect for Excel quiz preparation.</p>
                     <a href="/excel-notes" class="btn btn-excel">View Excel Notes</a>
-                </div>
-                
-                <div class="card">
-                    <h3>📊 View Results</h3>
-                    <p>Teachers can access the dashboard to view all student results, analyze performance, and export data for further analysis.</p>
-                    <a href="/dashboard" class="btn btn-secondary">Dashboard</a>
                 </div>
             </div>
 
@@ -235,10 +258,313 @@ def index():
                     </div>
                 </div>
             </div>
+            
+            <div class="teacher-link">
+                <a href="/teacher-login">👨‍🏫 Teacher Access</a>
+            </div>
         </div>
     </body>
     </html>
     ''')
+
+@app.route('/teacher-login')
+def teacher_login():
+    if 'teacher_logged_in' in session:
+        return redirect(url_for('teacher_dashboard'))
+    
+    return render_template_string('''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Teacher Login - CAT Quiz System</title>
+        <style>
+            body { 
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                margin: 0; 
+                padding: 0;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .login-container {
+                background: white;
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                width: 100%;
+                max-width: 400px;
+                text-align: center;
+            }
+            .login-container h1 {
+                color: #2c3e50;
+                margin-bottom: 30px;
+                font-size: 2em;
+            }
+            .form-group {
+                margin-bottom: 20px;
+                text-align: left;
+            }
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: #495057;
+                font-weight: 500;
+            }
+            .form-group input {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e9ecef;
+                border-radius: 8px;
+                font-size: 16px;
+                box-sizing: border-box;
+            }
+            .form-group input:focus {
+                outline: none;
+                border-color: #007bff;
+            }
+            .btn {
+                width: 100%;
+                padding: 15px;
+                background: linear-gradient(135deg, #007bff, #0056b3);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+            }
+            .back-link {
+                margin-top: 20px;
+            }
+            .back-link a {
+                color: #6c757d;
+                text-decoration: none;
+            }
+            .back-link a:hover {
+                color: #007bff;
+            }
+            .error {
+                background: #f8d7da;
+                color: #721c24;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-container">
+            <h1>👨‍🏫 Teacher Login</h1>
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+            <form method="POST" action="/teacher-login">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <div class="back-link">
+                <a href="/">← Back to Student Portal</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    ''')
+
+@app.route('/teacher-login', methods=['POST'])
+def teacher_login_post():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    
+    if username in TEACHER_CREDENTIALS and TEACHER_CREDENTIALS[username] == hashlib.sha256(password.encode()).hexdigest():
+        session['teacher_logged_in'] = True
+        session['teacher_username'] = username
+        return redirect(url_for('teacher_dashboard'))
+    else:
+        return render_template_string('''
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Teacher Login - CAT Quiz System</title>
+            <style>
+                body { 
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                    margin: 0; 
+                    padding: 0;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .login-container {
+                    background: white;
+                    border-radius: 20px;
+                    padding: 40px;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                    width: 100%;
+                    max-width: 400px;
+                    text-align: center;
+                }
+                .login-container h1 {
+                    color: #2c3e50;
+                    margin-bottom: 30px;
+                    font-size: 2em;
+                }
+                .form-group {
+                    margin-bottom: 20px;
+                    text-align: left;
+                }
+                .form-group label {
+                    display: block;
+                    margin-bottom: 8px;
+                    color: #495057;
+                    font-weight: 500;
+                }
+                .form-group input {
+                    width: 100%;
+                    padding: 12px;
+                    border: 2px solid #e9ecef;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    box-sizing: border-box;
+                }
+                .form-group input:focus {
+                    outline: none;
+                    border-color: #007bff;
+                }
+                .btn {
+                    width: 100%;
+                    padding: 15px;
+                    background: linear-gradient(135deg, #007bff, #0056b3);
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                }
+                .btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+                }
+                .back-link {
+                    margin-top: 20px;
+                }
+                .back-link a {
+                    color: #6c757d;
+                    text-decoration: none;
+                }
+                .back-link a:hover {
+                    color: #007bff;
+                }
+                .error {
+                    background: #f8d7da;
+                    color: #721c24;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin-bottom: 20px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="login-container">
+                <h1>👨‍🏫 Teacher Login</h1>
+                <div class="error">Invalid username or password. Please try again.</div>
+                <form method="POST" action="/teacher-login">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <div class="back-link">
+                    <a href="/">← Back to Student Portal</a>
+                </div>
+            </div>
+        </body>
+        </html>
+        ''')
+
+@app.route('/teacher-logout')
+def teacher_logout():
+    session.pop('teacher_logged_in', None)
+    session.pop('teacher_username', None)
+    return redirect(url_for('index'))
+
+@app.route('/teacher-dashboard')
+@login_required
+def teacher_dashboard():
+    # Serve the dashboard HTML file
+    with open('CAT_Grade11_Database_Dashboard.html', 'r', encoding='utf-8') as f:
+        dashboard_html = f.read()
+    
+    # Add logout button and teacher info to the dashboard
+    dashboard_html = dashboard_html.replace(
+        '<div class="header">',
+        '''<div class="header">
+            <div style="position: absolute; top: 20px; right: 20px;">
+                <span style="color: white; margin-right: 15px;">Welcome, Teacher!</span>
+                <a href="/teacher-logout" style="color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 5px;">Logout</a>
+            </div>'''
+    )
+    
+    # Replace localStorage loading with API call
+    dashboard_html = dashboard_html.replace(
+        'function loadData() {',
+        '''function loadData() {
+            // Load from Railway backend API
+            fetch('/api/results')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    allSubmissions = data.results;
+                    filteredSubmissions = [...allSubmissions];
+                    updateStats();
+                    updateTable();
+                    updateCharts();
+                } else {
+                    console.error('Error loading data:', data.error);
+                    // Fallback to localStorage
+                    const storedData = localStorage.getItem('quizSubmissions');
+                    allSubmissions = storedData ? JSON.parse(storedData) : [];
+                    filteredSubmissions = [...allSubmissions];
+                    updateStats();
+                    updateTable();
+                    updateCharts();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback to localStorage
+                const storedData = localStorage.getItem('quizSubmissions');
+                allSubmissions = storedData ? JSON.parse(storedData) : [];
+                filteredSubmissions = [...allSubmissions];
+                updateStats();
+                updateTable();
+                updateCharts();
+            });'''
+    )
+    
+    return dashboard_html
 
 @app.route('/quiz')
 def quiz():
@@ -327,51 +653,6 @@ def excel_notes():
     with open('CAT_Excel_Study_Notes.html', 'r', encoding='utf-8') as f:
         excel_notes_html = f.read()
     return excel_notes_html
-
-@app.route('/dashboard')
-def dashboard():
-    # Serve the dashboard HTML file
-    with open('CAT_Grade11_Database_Dashboard.html', 'r', encoding='utf-8') as f:
-        dashboard_html = f.read()
-    
-    # Replace localStorage loading with API call
-    dashboard_html = dashboard_html.replace(
-        'function loadData() {',
-        '''function loadData() {
-            // Load from Railway backend API
-            fetch('/api/results')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    allSubmissions = data.results;
-                    filteredSubmissions = [...allSubmissions];
-                    updateStats();
-                    updateTable();
-                    updateCharts();
-                } else {
-                    console.error('Error loading data:', data.error);
-                    // Fallback to localStorage
-                    const storedData = localStorage.getItem('quizSubmissions');
-                    allSubmissions = storedData ? JSON.parse(storedData) : [];
-                    filteredSubmissions = [...allSubmissions];
-                    updateStats();
-                    updateTable();
-                    updateCharts();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Fallback to localStorage
-                const storedData = localStorage.getItem('quizSubmissions');
-                allSubmissions = storedData ? JSON.parse(storedData) : [];
-                filteredSubmissions = [...allSubmissions];
-                updateStats();
-                updateTable();
-                updateCharts();
-            });'''
-    )
-    
-    return dashboard_html
 
 @app.route('/api/submit', methods=['POST'])
 def submit_quiz():
