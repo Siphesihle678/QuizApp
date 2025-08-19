@@ -17,26 +17,31 @@ TEACHER_CREDENTIALS = {
 
 # Database setup
 def init_db():
-    conn = sqlite3.connect('quiz_results.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS quiz_submissions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_name TEXT NOT NULL,
-            student_email TEXT NOT NULL,
-            student_grade TEXT NOT NULL,
-            score INTEGER NOT NULL,
-            total_questions INTEGER NOT NULL,
-            percentage INTEGER NOT NULL,
-            time_used INTEGER NOT NULL,
-            answers TEXT NOT NULL,
-            incorrect_answers TEXT NOT NULL,
-            quiz_type TEXT DEFAULT 'database',
-            submission_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect('quiz_results.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS quiz_submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                student_name TEXT NOT NULL,
+                student_email TEXT NOT NULL,
+                student_grade TEXT NOT NULL,
+                score INTEGER NOT NULL,
+                total_questions INTEGER NOT NULL,
+                percentage INTEGER NOT NULL,
+                time_used INTEGER NOT NULL,
+                answers TEXT NOT NULL,
+                incorrect_answers TEXT NOT NULL,
+                quiz_type TEXT DEFAULT 'database',
+                submission_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        conn.commit()
+        conn.close()
+        print("Database initialized successfully")
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+        raise e
 
 # Initialize database on startup
 init_db()
@@ -514,8 +519,13 @@ def teacher_logout():
 @login_required
 def teacher_dashboard():
     # Serve the dashboard HTML file
-    with open('CAT_Grade11_Database_Dashboard.html', 'r', encoding='utf-8') as f:
-        dashboard_html = f.read()
+    try:
+        with open('CAT_Grade11_Database_Dashboard.html', 'r', encoding='utf-8') as f:
+            dashboard_html = f.read()
+    except FileNotFoundError:
+        return "Dashboard file not found. Please check if CAT_Grade11_Database_Dashboard.html exists.", 404
+    except Exception as e:
+        return f"Error loading dashboard: {str(e)}", 500
     
     # Add logout button and teacher info to the dashboard
     dashboard_html = dashboard_html.replace(
@@ -601,46 +611,56 @@ def teacher_dashboard():
 
 @app.route('/quiz')
 def quiz():
-    # Serve the enhanced 25-question quiz HTML file
-    with open('CAT_Grade11_Database_Quiz_25Questions_Enhanced.html', 'r', encoding='utf-8') as f:
-        quiz_html = f.read()
-    
-    # Replace the localStorage submission with API call
-    quiz_html = quiz_html.replace(
-        'function submitToBackend(quizData) {',
-        '''function submitToBackend(quizData) {
-            // Submit to Railway backend API
-            fetch('/api/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(quizData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Quiz submitted successfully');
-                } else {
-                    console.error('Error submitting quiz:', data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Fallback to localStorage
-                const submissions = JSON.parse(localStorage.getItem('quizSubmissions') || '[]');
-                submissions.push(quizData);
-                localStorage.setItem('quizSubmissions', JSON.stringify(submissions));
-            });'''
-    )
-    
-    return quiz_html
+    try:
+        # Serve the enhanced 25-question quiz HTML file
+        with open('CAT_Grade11_Database_Quiz_25Questions_Enhanced.html', 'r', encoding='utf-8') as f:
+            quiz_html = f.read()
+        
+        # Replace the localStorage submission with API call
+        quiz_html = quiz_html.replace(
+            'function submitToBackend(quizData) {',
+            '''function submitToBackend(quizData) {
+                // Submit to Railway backend API
+                fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(quizData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Quiz submitted successfully');
+                    } else {
+                        console.error('Error submitting quiz:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Fallback to localStorage
+                    const submissions = JSON.parse(localStorage.getItem('quizSubmissions') || '[]');
+                    submissions.push(quizData);
+                    localStorage.setItem('quizSubmissions', JSON.stringify(submissions));
+                });'''
+        )
+        
+        return quiz_html
+    except FileNotFoundError:
+        return "Quiz file not found. Please check if CAT_Grade11_Database_Quiz_25Questions_Enhanced.html exists.", 404
+    except Exception as e:
+        return f"Error loading quiz: {str(e)}", 500
 
 @app.route('/excel-quiz')
 def excel_quiz():
     # Serve the enhanced Excel quiz HTML file
-    with open('CAT_Excel_Marks_Analysis_Quiz_Enhanced.html', 'r', encoding='utf-8') as f:
-        excel_quiz_html = f.read()
+    try:
+        with open('CAT_Excel_Marks_Analysis_Quiz_Enhanced.html', 'r', encoding='utf-8') as f:
+            excel_quiz_html = f.read()
+    except FileNotFoundError:
+        return "Excel quiz file not found. Please check if CAT_Excel_Marks_Analysis_Quiz_Enhanced.html exists.", 404
+    except Exception as e:
+        return f"Error loading excel quiz: {str(e)}", 500
     
     # Replace the localStorage submission with API call
     excel_quiz_html = excel_quiz_html.replace(
@@ -676,15 +696,25 @@ def excel_quiz():
 @app.route('/notes')
 def notes():
     # Serve the enhanced notes HTML file
-    with open('CAT_Database_Enhanced_Notes.html', 'r', encoding='utf-8') as f:
-        notes_html = f.read()
+    try:
+        with open('CAT_Database_Enhanced_Notes.html', 'r', encoding='utf-8') as f:
+            notes_html = f.read()
+    except FileNotFoundError:
+        return "Database notes file not found. Please check if CAT_Database_Enhanced_Notes.html exists.", 404
+    except Exception as e:
+        return f"Error loading database notes: {str(e)}", 500
     return notes_html
 
 @app.route('/excel-notes')
 def excel_notes():
     # Serve the Excel study notes HTML file
-    with open('CAT_Excel_Study_Notes.html', 'r', encoding='utf-8') as f:
-        excel_notes_html = f.read()
+    try:
+        with open('CAT_Excel_Study_Notes.html', 'r', encoding='utf-8') as f:
+            excel_notes_html = f.read()
+    except FileNotFoundError:
+        return "Excel notes file not found. Please check if CAT_Excel_Study_Notes.html exists.", 404
+    except Exception as e:
+        return f"Error loading excel notes: {str(e)}", 500
     return excel_notes_html
 
 @app.route('/api/submit', methods=['POST'])
@@ -886,6 +916,26 @@ def debug_database():
         
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/test')
+def test():
+    """Simple test route to verify the application is working"""
+    return jsonify({
+        'success': True,
+        'message': 'CAT Quiz System is running correctly!',
+        'timestamp': datetime.now().isoformat(),
+        'endpoints': {
+            'main_page': '/',
+            'teacher_login': '/teacher-login',
+            'teacher_dashboard': '/teacher-dashboard',
+            'database_quiz': '/quiz',
+            'excel_quiz': '/excel-quiz',
+            'database_notes': '/notes',
+            'excel_notes': '/excel-notes',
+            'api_results': '/api/results',
+            'api_debug': '/api/debug'
+        }
+    })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
