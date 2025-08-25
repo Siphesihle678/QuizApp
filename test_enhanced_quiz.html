@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Quiz Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        .content {
+            padding: 30px;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .test-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Enhanced Quiz Feature Test</h1>
+            <p>Testing the new quiz results and explanations functionality</p>
+        </div>
+        
+        <div class="content">
+            <div class="test-section">
+                <h3>📋 Test Results</h3>
+                <div id="testResults">
+                    <p>Click the buttons below to test the enhanced quiz features:</p>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>🔧 Test Database Quiz</h3>
+                <button class="btn btn-primary" onclick="testDatabaseQuiz()">Test Database Quiz Enhancement</button>
+                <div id="databaseTestResult"></div>
+            </div>
+            
+            <div class="test-section">
+                <h3>📊 Test Excel Quiz</h3>
+                <button class="btn btn-primary" onclick="testExcelQuiz()">Test Excel Quiz Enhancement</button>
+                <div id="excelTestResult"></div>
+            </div>
+            
+            <div class="test-section">
+                <h3>📁 File Validation</h3>
+                <button class="btn btn-secondary" onclick="validateFiles()">Validate Enhanced Files</button>
+                <div id="fileValidationResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testDatabaseQuiz() {
+            const result = document.getElementById('databaseTestResult');
+            
+            // Test if the enhanced database quiz file exists and has required elements
+            fetch('CAT_Grade11_Database_Quiz_25Questions_Enhanced.html')
+                .then(response => response.text())
+                .then(html => {
+                    const tests = [
+                        {
+                            name: 'Enhanced Results Section',
+                            test: () => html.includes('detailed-results') && html.includes('question-analysis')
+                        },
+                        {
+                            name: 'Question Explanations',
+                            test: () => html.includes('questionExplanations') && html.includes('explanation')
+                        },
+                        {
+                            name: 'Action Buttons',
+                            test: () => html.includes('showAllQuestions') && html.includes('retakeQuiz')
+                        },
+                        {
+                            name: 'Enhanced CSS Styles',
+                            test: () => html.includes('.detailed-results') && html.includes('.question-item')
+                        }
+                    ];
+                    
+                    let passed = 0;
+                    let total = tests.length;
+                    let results = '<h4>Database Quiz Enhancement Tests:</h4>';
+                    
+                    tests.forEach(test => {
+                        const success = test.test();
+                        if (success) passed++;
+                        results += `<div class="status ${success ? 'success' : 'error'}">
+                            ${success ? '✅' : '❌'} ${test.name}: ${success ? 'PASSED' : 'FAILED'}
+                        </div>`;
+                    });
+                    
+                    results += `<div class="status ${passed === total ? 'success' : 'error'}">
+                        <strong>Overall: ${passed}/${total} tests passed</strong>
+                    </div>`;
+                    
+                    result.innerHTML = results;
+                })
+                .catch(error => {
+                    result.innerHTML = `<div class="status error">❌ Error testing database quiz: ${error.message}</div>`;
+                });
+        }
+        
+        function testExcelQuiz() {
+            const result = document.getElementById('excelTestResult');
+            
+            // Test if the enhanced Excel quiz file exists and has required elements
+            fetch('CAT_Excel_Marks_Analysis_Quiz_Enhanced.html')
+                .then(response => response.text())
+                .then(html => {
+                    const tests = [
+                        {
+                            name: 'Enhanced Results Section',
+                            test: () => html.includes('detailed-results') && html.includes('question-analysis')
+                        },
+                        {
+                            name: 'Excel Question Explanations',
+                            test: () => html.includes('excelQuestionExplanations') && html.includes('explanation')
+                        },
+                        {
+                            name: 'Enhanced Functions',
+                            test: () => html.includes('generateDetailedAnalysis') && html.includes('showAllQuestions')
+                        },
+                        {
+                            name: 'Enhanced CSS Styles',
+                            test: () => html.includes('.detailed-results') && html.includes('.question-item')
+                        }
+                    ];
+                    
+                    let passed = 0;
+                    let total = tests.length;
+                    let results = '<h4>Excel Quiz Enhancement Tests:</h4>';
+                    
+                    tests.forEach(test => {
+                        const success = test.test();
+                        if (success) passed++;
+                        results += `<div class="status ${success ? 'success' : 'error'}">
+                            ${success ? '✅' : '❌'} ${test.name}: ${success ? 'PASSED' : 'FAILED'}
+                        </div>`;
+                    });
+                    
+                    results += `<div class="status ${passed === total ? 'success' : 'error'}">
+                        <strong>Overall: ${passed}/${total} tests passed</strong>
+                    </div>`;
+                    
+                    result.innerHTML = results;
+                })
+                .catch(error => {
+                    result.innerHTML = `<div class="status error">❌ Error testing Excel quiz: ${error.message}</div>`;
+                });
+        }
+        
+        function validateFiles() {
+            const result = document.getElementById('fileValidationResult');
+            
+            const files = [
+                'CAT_Grade11_Database_Quiz_25Questions_Enhanced.html',
+                'CAT_Excel_Marks_Analysis_Quiz_Enhanced.html',
+                'app.py'
+            ];
+            
+            let results = '<h4>File Validation Results:</h4>';
+            let allValid = true;
+            
+            files.forEach(file => {
+                fetch(file)
+                    .then(response => {
+                        if (response.ok) {
+                            results += `<div class="status success">✅ ${file}: Found and accessible</div>`;
+                        } else {
+                            results += `<div class="status error">❌ ${file}: Not found (${response.status})</div>`;
+                            allValid = false;
+                        }
+                    })
+                    .catch(error => {
+                        results += `<div class="status error">❌ ${file}: Error accessing file</div>`;
+                        allValid = false;
+                    });
+            });
+            
+            setTimeout(() => {
+                results += `<div class="status ${allValid ? 'success' : 'error'}">
+                    <strong>File Validation: ${allValid ? 'ALL FILES VALID' : 'SOME FILES MISSING'}</strong>
+                </div>`;
+                result.innerHTML = results;
+            }, 1000);
+        }
+        
+        // Auto-run tests on page load
+        window.onload = function() {
+            setTimeout(() => {
+                testDatabaseQuiz();
+                testExcelQuiz();
+                validateFiles();
+            }, 500);
+        };
+    </script>
+</body>
+</html>

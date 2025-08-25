@@ -183,6 +183,266 @@
             padding: 20px;
             margin-bottom: 25px;
         }
+        
+        /* Enhanced Results Styles */
+        .detailed-results {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .summary-label {
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .summary-value {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .summary-value.correct {
+            color: #28a745;
+        }
+        
+        .summary-value.incorrect {
+            color: #dc3545;
+        }
+        
+        .question-analysis {
+            margin-bottom: 25px;
+        }
+        
+        .question-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e9ecef;
+        }
+        
+        .question-item.correct {
+            border-left-color: #28a745;
+            background: #f8fff9;
+        }
+        
+        .question-item.incorrect {
+            border-left-color: #dc3545;
+            background: #fff8f8;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .question-status {
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .question-status.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .question-status.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .answer-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .answer-box {
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .answer-box.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .answer-box.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .answer-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .answer-text {
+            color: #495057;
+        }
+        
+        .explanation {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .explanation h4 {
+            color: #1976d2;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .explanation p {
+            color: #424242;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        /* All Questions Review Styles */
+        .all-questions-review {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .review-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .questions-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .review-question {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .review-question h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .review-options {
+            margin-bottom: 15px;
+        }
+        
+        .review-option {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .review-option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            font-weight: bold;
+        }
+        
+        .review-option.selected {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+        
+        .review-option.selected.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        @media print {
+            .action-buttons, .review-controls {
+                display: none !important;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .detailed-results, .all-questions-review {
+                background: white;
+                border-radius: 0;
+            }
+        }
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -856,6 +1116,51 @@
                 <h3>📊 Your Performance Summary</h3>
                 <p id="feedbackText">Loading feedback...</p>
             </div>
+            
+            <!-- Enhanced Results Section -->
+            <div class="detailed-results" id="detailedResults" style="display: none;">
+                <h3>📋 Detailed Question Analysis</h3>
+                <div class="results-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Total Questions:</span>
+                        <span class="summary-value" id="totalQuestionsDisplay">25</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Correct Answers:</span>
+                        <span class="summary-value correct" id="correctAnswersDisplay">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Incorrect Answers:</span>
+                        <span class="summary-value incorrect" id="incorrectAnswersDisplay">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Time Used:</span>
+                        <span class="summary-value" id="timeUsedDisplay">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="question-analysis" id="questionAnalysis">
+                    <!-- Question analysis will be populated here -->
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showAllQuestions()">📖 View All Questions & Answers</button>
+                    <button class="btn btn-secondary" onclick="retakeQuiz()">🔄 Retake Quiz</button>
+                    <button class="btn btn-secondary" onclick="downloadResults()">📥 Download Results</button>
+                </div>
+            </div>
+            
+            <!-- All Questions Review Section -->
+            <div class="all-questions-review" id="allQuestionsReview" style="display: none;">
+                <h3>📚 Complete Question Review</h3>
+                <div class="review-controls">
+                    <button class="btn btn-secondary" onclick="showDetailedResults()">← Back to Results</button>
+                    <button class="btn btn-primary" onclick="printReview()">🖨️ Print Review</button>
+                </div>
+                <div class="questions-container" id="questionsContainer">
+                    <!-- All questions with explanations will be populated here -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -898,6 +1203,115 @@
             q19: 'Calculations',
             q20: 'Formatting',
             q21: 'Problem Solving',
+            q22: 'Database Design',
+            q23: 'Data Management',
+            q24: 'Database Principles',
+            q25: 'Best Practices'
+        };
+
+        // Question explanations
+        const questionExplanations = {
+            q1: {
+                correct: 'D) Worksheets',
+                explanation: 'Worksheets are Excel objects, not Access database objects. The main Access objects are Tables, Forms, Queries, Reports, and Macros.'
+            },
+            q2: {
+                correct: 'A) To store data in rows and columns',
+                explanation: 'Tables are the fundamental storage units in a database. They organize data in a structured format with rows (records) and columns (fields).'
+            },
+            q3: {
+                correct: 'B) Text, Number, Date/Time',
+                explanation: 'These are the most commonly used data types in Access. Text stores alphanumeric data, Number stores numeric values, and Date/Time stores dates and times.'
+            },
+            q4: {
+                correct: 'B) To uniquely identify each record',
+                explanation: 'Primary keys ensure that each record in a table can be uniquely identified, preventing duplicate records and enabling relationships between tables.'
+            },
+            q5: {
+                correct: 'B) To retrieve and manipulate data',
+                explanation: 'Queries are used to extract, filter, sort, and analyze data from tables. They can also perform calculations and combine data from multiple tables.'
+            },
+            q6: {
+                correct: 'B) AND, OR, NOT',
+                explanation: 'These are the fundamental logical operators used in queries to combine multiple conditions and create complex search criteria.'
+            },
+            q7: {
+                correct: 'B) To display data in a user-friendly format',
+                explanation: 'Views (or queries) present data in a more readable format, often combining information from multiple tables for easier analysis.'
+            },
+            q8: {
+                correct: 'B) To ensure data quality and consistency',
+                explanation: 'Data validation rules help maintain data integrity by preventing invalid data entry and ensuring consistency across the database.'
+            },
+            q9: {
+                correct: 'B) COUNT, SUM, AVG',
+                explanation: 'These aggregate functions perform calculations on groups of records. COUNT counts records, SUM adds values, and AVG calculates averages.'
+            },
+            q10: {
+                correct: 'B) To link related data between tables',
+                explanation: 'Relationships connect tables through common fields, allowing you to combine data from multiple tables and maintain referential integrity.'
+            },
+            q11: {
+                correct: 'B) To control how data is stored and displayed',
+                explanation: 'Field properties define data types, validation rules, default values, and formatting options for individual fields.'
+            },
+            q12: {
+                correct: 'D) To provide a user-friendly interface for data entry',
+                explanation: 'Forms create a customized interface for entering, editing, and viewing data, making it easier for users to interact with the database.'
+            },
+            q13: {
+                correct: 'B) To present data in a formatted, printable layout',
+                explanation: 'Reports organize and format data for printing or display, often including summaries, calculations, and professional formatting.'
+            },
+            q14: {
+                correct: 'D) To exchange data with other applications',
+                explanation: 'Import/Export features allow Access databases to share data with other applications like Excel, Word, or other database systems.'
+            },
+            q15: {
+                correct: 'B) To maintain accurate and consistent data',
+                explanation: 'Data integrity ensures that data remains accurate, consistent, and reliable throughout the database, preventing corruption and errors.'
+            },
+            q16: {
+                correct: 'C) To combine data from multiple tables',
+                explanation: 'JOINs connect related data from different tables, allowing you to create queries that display information from multiple sources.'
+            },
+            q17: {
+                correct: 'B) To organize data in a specific order',
+                explanation: 'Sorting arranges records in ascending or descending order based on specified fields, making data easier to read and analyze.'
+            },
+            q18: {
+                correct: 'C) To create queries within queries',
+                explanation: 'Subqueries are nested queries that use the results of one query as criteria for another, enabling complex data analysis.'
+            },
+            q19: {
+                correct: 'B) To perform mathematical operations on data',
+                explanation: 'Calculations in Access can include arithmetic operations, functions, and formulas to derive new values from existing data.'
+            },
+            q20: {
+                correct: 'B) To control how data is displayed',
+                explanation: 'Formatting options control the appearance of data, including number formats, date formats, and text styling.'
+            },
+            q21: {
+                correct: 'B) To solve real-world data problems',
+                explanation: 'Database applications are designed to address specific business needs and solve practical data management problems.'
+            },
+            q22: {
+                correct: 'B) To plan the database structure before building',
+                explanation: 'Proper database design involves planning tables, relationships, and data flow before implementation to ensure efficiency and functionality.'
+            },
+            q23: {
+                correct: 'A) To maintain and update data regularly',
+                explanation: 'Data management involves ongoing tasks like adding, updating, deleting, and maintaining data to keep the database current and accurate.'
+            },
+            q24: {
+                correct: 'A) Making it look professional',
+                explanation: 'While appearance matters, the most important consideration is ensuring data accuracy and eliminating redundancy to maintain data integrity.'
+            },
+            q25: {
+                correct: 'B) Always including primary keys and setting up relationships',
+                explanation: 'Primary keys and relationships are fundamental to good database design, ensuring data integrity and enabling efficient data retrieval.'
+            }
+        };
             q22: 'Integration',
             q23: 'Advanced Queries',
             q24: 'Database Design',
@@ -1069,6 +1483,213 @@
             }
 
             document.getElementById('feedbackText').innerHTML = feedbackText;
+
+            // Show detailed results
+            showDetailedResults(quizData);
+        }
+
+        function showDetailedResults(quizData) {
+            // Update summary display
+            document.getElementById('totalQuestionsDisplay').textContent = quizData.totalQuestions;
+            document.getElementById('correctAnswersDisplay').textContent = quizData.score;
+            document.getElementById('incorrectAnswersDisplay').textContent = quizData.totalQuestions - quizData.score;
+            
+            const minutes = Math.floor(quizData.timeUsed / 60);
+            const seconds = quizData.timeUsed % 60;
+            document.getElementById('timeUsedDisplay').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            // Generate question analysis
+            const questionAnalysis = document.getElementById('questionAnalysis');
+            questionAnalysis.innerHTML = '';
+
+            // Get all student answers
+            const studentAnswers = {};
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionName = `q${i}`;
+                const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+                studentAnswers[questionName] = selectedAnswer ? selectedAnswer.value : 'Not answered';
+            }
+
+            // Create analysis for each question
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionName = `q${i}`;
+                const studentAnswer = studentAnswers[questionName];
+                const correctAnswer = correctAnswers[questionName];
+                const isCorrect = studentAnswer === correctAnswer;
+                const explanation = questionExplanations[questionName];
+
+                const questionItem = document.createElement('div');
+                questionItem.className = `question-item ${isCorrect ? 'correct' : 'incorrect'}`;
+                
+                questionItem.innerHTML = `
+                    <div class="question-header">
+                        <span class="question-number">Question ${i}</span>
+                        <span class="question-status ${isCorrect ? 'correct' : 'incorrect'}">
+                            ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                        </span>
+                    </div>
+                    <div class="question-text">${getQuestionText(i)}</div>
+                    <div class="answer-comparison">
+                        <div class="answer-box ${isCorrect ? 'correct' : 'incorrect'}">
+                            <div class="answer-label">Your Answer:</div>
+                            <div class="answer-text">${getAnswerText(studentAnswer)}</div>
+                        </div>
+                        <div class="answer-box correct">
+                            <div class="answer-label">Correct Answer:</div>
+                            <div class="answer-text">${explanation.correct}</div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>💡 Explanation:</h4>
+                        <p>${explanation.explanation}</p>
+                    </div>
+                `;
+
+                questionAnalysis.appendChild(questionItem);
+            }
+
+            // Show detailed results section
+            document.getElementById('detailedResults').style.display = 'block';
+        }
+
+        function getQuestionText(questionNumber) {
+            const questionElement = document.querySelector(`.question:nth-child(${questionNumber}) .question-text`);
+            return questionElement ? questionElement.textContent : `Question ${questionNumber}`;
+        }
+
+        function getAnswerText(answerValue) {
+            const answerLabels = {
+                'A': 'A) ',
+                'B': 'B) ',
+                'C': 'C) ',
+                'D': 'D) '
+            };
+            
+            if (answerValue === 'Not answered') {
+                return 'Not answered';
+            }
+            
+            const label = answerLabels[answerValue];
+            const optionElement = document.querySelector(`input[value="${answerValue}"] + label`);
+            return optionElement ? optionElement.textContent : `${label}Unknown option`;
+        }
+
+        function showAllQuestions() {
+            document.getElementById('detailedResults').style.display = 'none';
+            document.getElementById('allQuestionsReview').style.display = 'block';
+            
+            const questionsContainer = document.getElementById('questionsContainer');
+            questionsContainer.innerHTML = '';
+
+            // Get all student answers
+            const studentAnswers = {};
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionName = `q${i}`;
+                const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+                studentAnswers[questionName] = selectedAnswer ? selectedAnswer.value : 'Not answered';
+            }
+
+            // Create review for each question
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionName = `q${i}`;
+                const studentAnswer = studentAnswers[questionName];
+                const correctAnswer = correctAnswers[questionName];
+                const isCorrect = studentAnswer === correctAnswer;
+                const explanation = questionExplanations[questionName];
+
+                const reviewQuestion = document.createElement('div');
+                reviewQuestion.className = 'review-question';
+                
+                // Get all options for this question
+                const options = [];
+                for (let j = 0; j < 4; j++) {
+                    const optionValue = String.fromCharCode(65 + j); // A, B, C, D
+                    const optionElement = document.querySelector(`input[name="${questionName}"][value="${optionValue}"] + label`);
+                    if (optionElement) {
+                        const isSelected = studentAnswer === optionValue;
+                        const isCorrectOption = correctAnswer === optionValue;
+                        let className = 'review-option';
+                        if (isCorrectOption) className += ' correct';
+                        if (isSelected) className += ' selected';
+                        if (isSelected && !isCorrect) className += ' incorrect';
+                        
+                        options.push(`<div class="${className}">${optionElement.textContent}</div>`);
+                    }
+                }
+
+                reviewQuestion.innerHTML = `
+                    <h4>
+                        <span class="question-number">Question ${i}</span>
+                        <span class="question-status ${isCorrect ? 'correct' : 'incorrect'}">
+                            ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                        </span>
+                    </h4>
+                    <div class="question-text">${getQuestionText(i)}</div>
+                    <div class="review-options">
+                        ${options.join('')}
+                    </div>
+                    <div class="explanation">
+                        <h4>💡 Explanation:</h4>
+                        <p>${explanation.explanation}</p>
+                    </div>
+                `;
+
+                questionsContainer.appendChild(reviewQuestion);
+            }
+        }
+
+        function showDetailedResults() {
+            document.getElementById('allQuestionsReview').style.display = 'none';
+            document.getElementById('detailedResults').style.display = 'block';
+        }
+
+        function retakeQuiz() {
+            // Reset form
+            document.getElementById('quizForm').reset();
+            
+            // Reset timer
+            timeLeft = timeLimit;
+            updateTimer();
+            
+            // Show quiz form
+            document.getElementById('quizForm').style.display = 'block';
+            document.querySelector('.student-info').style.display = 'block';
+            document.querySelector('.timer').style.display = 'block';
+            
+            // Hide results
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('detailedResults').style.display = 'none';
+            document.getElementById('allQuestionsReview').style.display = 'none';
+            
+            // Start timer
+            startTimer();
+        }
+
+        function downloadResults() {
+            const quizData = {
+                studentName: document.getElementById('studentName').value,
+                studentEmail: document.getElementById('studentEmail').value,
+                studentGrade: document.getElementById('studentGrade').value,
+                score: document.getElementById('scoreDisplay').textContent,
+                percentage: document.getElementById('scoreText').textContent,
+                date: new Date().toLocaleDateString(),
+                time: document.getElementById('timeUsedDisplay').textContent
+            };
+
+            const dataStr = JSON.stringify(quizData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `quiz_results_${quizData.studentName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        function printReview() {
+            window.print();
         }
     </script>
 </body>

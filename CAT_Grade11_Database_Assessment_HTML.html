@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade 11 CAT - Database Assessment</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .header {
+      text-align: center;
+      background: linear-gradient(135deg, #004080, #0066cc);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    h1, h2, h3 {
+      color: #004080;
+      margin-bottom: 15px;
+    }
+    
+    .exam-info {
+      background: #fff;
+      border: 2px solid #004080;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    
+    .info-item {
+      text-align: center;
+      padding: 10px;
+      background: #eaf4ff;
+      border-radius: 5px;
+    }
+    
+    .info-item strong {
+      color: #004080;
+    }
+    
+    .section {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      background: linear-gradient(90deg, #004080, #0066cc);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin: -25px -25px 20px -25px;
+    }
+    
+    .question {
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #004080;
+    }
+    
+    .question-number {
+      background: #004080;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    
+    .options label {
+      display: block;
+      margin: 8px 0;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .options label:hover {
+      background: #eaf4ff;
+      border-color: #004080;
+    }
+    
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    
+    .text-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 5px 0;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background: #004080;
+      color: white;
+      font-weight: bold;
+    }
+    
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    
+    .practical-task {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      border-left: 4px solid #f39c12;
+    }
+    
+    .practical-task h4 {
+      color: #856404;
+      margin-top: 0;
+    }
+    
+    .steps {
+      background: #e8f5e8;
+      border: 1px solid #c3e6c3;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      border-left: 4px solid #28a745;
+    }
+    
+    .steps ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    
+    .steps li {
+      margin: 8px 0;
+    }
+    
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #004080, #0066cc);
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      background: linear-gradient(135deg, #0066cc, #0080ff);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .hint {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: #eaf4ff;
+      border-left: 4px solid #004080;
+      border-radius: 5px;
+      font-style: italic;
+    }
+    
+    .hint-icon {
+      color: #004080;
+      margin-right: 5px;
+    }
+    
+    #score {
+      text-align: center;
+      font-size: 1.3em;
+      margin-top: 30px;
+      font-weight: bold;
+      color: #004080;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .timer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #dc3545;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 25px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    
+    .warning {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #f39c12;
+    }
+    
+    @media print {
+      .timer, button, .hint {
+        display: none !important;
+      }
+      
+      body {
+        background: white;
+        margin: 0;
+      }
+      
+      .section {
+        box-shadow: none;
+        border: 1px solid #000;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        margin: 10px;
+      }
+      
+      .exam-info {
+        grid-template-columns: 1fr;
+      }
+      
+      .timer {
+        position: static;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="timer" id="timer">Time: 02:00:00</div>
+  
+  <div class="header">
+    <h1>Grade 11 CAT - Microsoft Access Database Assessment</h1>
+    <h2>School Library Management System</h2>
+  </div>
+
+  <div class="exam-info">
+    <div class="info-item">
+      <strong>Duration:</strong><br>2 Hours
+    </div>
+         <div class="info-item">
+       <strong>Total Marks:</strong><br>110
+     </div>
+    <div class="info-item">
+      <strong>Instructions:</strong><br>Read all questions carefully
+    </div>
+    <div class="info-item">
+      <strong>Database:</strong><br>Access_Activity_One.accdb
+    </div>
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Important:</strong> Use Microsoft Access to complete practical tasks. Show all your work and reasoning.
+  </div>
+
+  <div id="exam">
+    <!-- SECTION A: DATABASE FUNDAMENTALS -->
+    <div class="section">
+      <div class="section-title">
+        <h2>SECTION A: DATABASE FUNDAMENTALS (30 Marks)</h2>
+      </div>
+
+      <div class="question" data-answer="a">
+        <div class="question-number">Question 1.1</div>
+        <p><strong>Define the following database terms:</strong></p>
+        <p><strong>Primary Key:</strong> A field that ________________________________________________</p>
+        <div class="options">
+          <label><input type="radio" name="q1_1" value="a"> Uniquely identifies each record in a table</label>
+          <label><input type="radio" name="q1_1" value="b"> Stores the largest value in a table</label>
+          <label><input type="radio" name="q1_1" value="c"> Contains only text data</label>
+          <label><input type="radio" name="q1_1" value="d"> Links to external websites</label>
+        </div>
+        <button onclick="showHint(this, 'hint1_1')">💡 Show Hint</button>
+        <div id="hint1_1" class="hint">Think about what makes each record unique in a database table.</div>
+      </div>
+
+      <div class="question" data-answer="c">
+        <div class="question-number">Question 1.2</div>
+        <p><strong>Which database object is used to retrieve specific data from tables?</strong></p>
+        <div class="options">
+          <label><input type="radio" name="q1_2" value="a"> Table</label>
+          <label><input type="radio" name="q1_2" value="b"> Form</label>
+          <label><input type="radio" name="q1_2" value="c"> Query</label>
+          <label><input type="radio" name="q1_2" value="d"> Report</label>
+        </div>
+        <button onclick="showHint(this, 'hint1_2')">💡 Show Hint</button>
+        <div id="hint1_2" class="hint">This object allows you to ask questions about your data.</div>
+      </div>
+
+      <div class="question">
+        <div class="question-number">Question 1.3</div>
+        <p><strong>For each field below, select the most appropriate data type:</strong></p>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Field Name</th>
+                <th>Data Type</th>
+                <th>Reasoning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>StudentID</td>
+                <td>
+                  <select class="text-input" name="q1_3_a">
+                    <option value="">Select...</option>
+                    <option value="autonumber">AutoNumber</option>
+                    <option value="text">Text</option>
+                    <option value="number">Number</option>
+                    <option value="date">Date/Time</option>
+                  </select>
+                </td>
+                <td><input type="text" class="text-input" name="q1_3_a_reason" placeholder="Explain your choice"></td>
+              </tr>
+              <tr>
+                <td>FirstName</td>
+                <td>
+                  <select class="text-input" name="q1_3_b">
+                    <option value="">Select...</option>
+                    <option value="autonumber">AutoNumber</option>
+                    <option value="text">Text</option>
+                    <option value="number">Number</option>
+                    <option value="date">Date/Time</option>
+                  </select>
+                </td>
+                <td><input type="text" class="text-input" name="q1_3_b_reason" placeholder="Explain your choice"></td>
+              </tr>
+              <tr>
+                <td>DateOfBirth</td>
+                <td>
+                  <select class="text-input" name="q1_3_c">
+                    <option value="">Select...</option>
+                    <option value="autonumber">AutoNumber</option>
+                    <option value="text">Text</option>
+                    <option value="number">Number</option>
+                    <option value="date">Date/Time</option>
+                  </select>
+                </td>
+                <td><input type="text" class="text-input" name="q1_3_c_reason" placeholder="Explain your choice"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION B: DATABASE DESIGN -->
+    <div class="section">
+             <div class="section-title">
+         <h2>SECTION B: DATABASE DESIGN (45 Marks)</h2>
+       </div>
+
+      <div class="question">
+        <div class="question-number">Question 2.1</div>
+        <p><strong>You have been given a database with 5 tables for a School Library Management System. None of the tables have primary keys assigned yet.</strong></p>
+        
+        <p><strong>For each table below, identify which field(s) should be the primary key:</strong></p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Fields</th>
+                <th>Primary Key Choice</th>
+                <th>Reasoning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Students</strong></td>
+                <td>StudentID, FirstName, LastName, Grade, Email</td>
+                <td><input type="text" class="text-input" name="q2_1_a" placeholder="Field name"></td>
+                <td><input type="text" class="text-input" name="q2_1_a_reason" placeholder="Explain your choice"></td>
+              </tr>
+              <tr>
+                <td><strong>Books</strong></td>
+                <td>BookID, ISBN, Title, Author, Genre</td>
+                <td><input type="text" class="text-input" name="q2_1_b" placeholder="Field name"></td>
+                <td><input type="text" class="text-input" name="q2_1_b_reason" placeholder="Explain your choice"></td>
+              </tr>
+              <tr>
+                <td><strong>Borrowings</strong></td>
+                <td>BorrowingID, StudentID, BookID, BorrowDate, DueDate</td>
+                <td><input type="text" class="text-input" name="q2_1_c" placeholder="Field name"></td>
+                <td><input type="text" class="text-input" name="q2_1_c_reason" placeholder="Explain your choice"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+             <div class="question">
+         <div class="question-number">Question 2.2</div>
+         <p><strong>Set appropriate field properties for the following fields in Microsoft Access:</strong></p>
+         
+         <div class="practical-task">
+           <h4>📋 Practical Task:</h4>
+           <p>Open the <strong>Students</strong> table in Design View and set the following properties:</p>
+         </div>
+
+         <div class="table-container">
+           <table>
+             <thead>
+               <tr>
+                 <th>Field</th>
+                 <th>Field Size</th>
+                 <th>Validation Rule</th>
+                 <th>Validation Text</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td><strong>FirstName</strong></td>
+                 <td><input type="text" class="text-input" name="q2_2_a_size" placeholder="e.g., 50"></td>
+                 <td><input type="text" class="text-input" name="q2_2_a_rule" placeholder="e.g., Is Not Null"></td>
+                 <td><input type="text" class="text-input" name="q2_2_a_text" placeholder="Error message"></td>
+               </tr>
+               <tr>
+                 <td><strong>Grade</strong></td>
+                 <td><input type="text" class="text-input" name="q2_2_b_size" placeholder="e.g., 2"></td>
+                 <td><input type="text" class="text-input" name="q2_2_b_rule" placeholder="e.g., In ('10','11','12')"></td>
+                 <td><input type="text" class="text-input" name="q2_2_b_text" placeholder="Error message"></td>
+               </tr>
+               <tr>
+                 <td><strong>Email</strong></td>
+                 <td><input type="text" class="text-input" name="q2_2_c_size" placeholder="e.g., 100"></td>
+                 <td><input type="text" class="text-input" name="q2_2_c_rule" placeholder="e.g., Like '*@*.*'"></td>
+                 <td><input type="text" class="text-input" name="q2_2_c_text" placeholder="Error message"></td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+
+       <div class="question">
+         <div class="question-number">Question 2.3</div>
+         <p><strong>Input Masks - Understanding and Application:</strong></p>
+         
+         <div class="practical-task">
+           <h4>🎭 Input Mask Task:</h4>
+           <p>Input masks help format data entry and ensure consistency. Study the examples below and answer the questions:</p>
+         </div>
+
+         <div class="table-container">
+           <table>
+             <thead>
+               <tr>
+                 <th>Field Type</th>
+                 <th>Input Mask</th>
+                 <th>Example Output</th>
+                 <th>Purpose</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td>Phone Number</td>
+                 <td><code>\(999\) 000-0000</code></td>
+                 <td>(082) 123-4567</td>
+                 <td>Format phone numbers consistently</td>
+               </tr>
+               <tr>
+                 <td>Date</td>
+                 <td><code>99/99/0000</code></td>
+                 <td>15/03/2006</td>
+                 <td>Ensure proper date format</td>
+               </tr>
+               <tr>
+                 <td>Student ID</td>
+                 <td><code>ST000000</code></td>
+                 <td>ST000123</td>
+                 <td>Standardize ID format</td>
+               </tr>
+               <tr>
+                 <td>ISBN</td>
+                 <td><code>000-0-000-00000-0</code></td>
+                 <td>978-0-747-35656-5</td>
+                 <td>Format book ISBN numbers</td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+
+         <p><strong>2.3.1 What does the input mask <code>\(999\) 000-0000</code> do?</strong></p>
+         <div class="options">
+           <label><input type="radio" name="q2_3_1" value="a"> Forces users to enter exactly 10 digits</label>
+           <label><input type="radio" name="q2_3_1" value="b"> Formats phone numbers with parentheses and dashes</label>
+           <label><input type="radio" name="q2_3_1" value="c"> Only allows letters to be entered</label>
+           <label><input type="radio" name="q2_3_1" value="d"> Creates a random phone number</label>
+         </div>
+
+         <p><strong>2.3.2 In the input mask <code>99/99/0000</code>, what does the "9" represent?</strong></p>
+         <div class="options">
+           <label><input type="radio" name="q2_3_2" value="a"> Any character (letter or number)</label>
+           <label><input type="radio" name="q2_3_2" value="b"> Only numbers (0-9), optional</label>
+           <label><input type="radio" name="q2_3_2" value="c"> Only letters (A-Z)</label>
+           <label><input type="radio" name="q2_3_2" value="d"> Only numbers (0-9), required</label>
+         </div>
+
+         <p><strong>2.3.3 Create an input mask for a South African ID number (13 digits):</strong></p>
+         <input type="text" class="text-input" name="q2_3_3" placeholder="e.g., 000000-0000-000" style="width: 200px;">
+
+         <p><strong>2.3.4 Explain why input masks are important in database design:</strong></p>
+         <textarea class="text-input" name="q2_3_4" rows="3" placeholder="Explain the benefits of using input masks..."></textarea>
+
+         <div class="practical-task">
+           <h4>🔧 Practical Application:</h4>
+           <p>In Microsoft Access, set the following input masks:</p>
+           <ul>
+             <li><strong>PhoneNumber field:</strong> Input mask: <code>\(999\) 000-0000</code></li>
+             <li><strong>DateOfBirth field:</strong> Input mask: <code>99/99/0000</code></li>
+             <li><strong>StudentID field:</strong> Input mask: <code>ST000000</code></li>
+           </ul>
+         </div>
+       </div>
+    </div>
+
+    <!-- SECTION C: QUERY DESIGN -->
+    <div class="section">
+             <div class="section-title">
+         <h2>SECTION C: QUERY DESIGN (25 Marks)</h2>
+       </div>
+
+      <div class="question">
+        <div class="question-number">Question 3.1</div>
+        <p><strong>Create the following queries using Microsoft Access Query Design View. For each query, explain the steps you took.</strong></p>
+
+        <div class="practical-task">
+          <h4>🔍 Query 1: Grade 11 Students</h4>
+          <p><strong>Task:</strong> Find all students in Grade 11</p>
+          
+          <div class="steps">
+            <h5>Steps to follow:</h5>
+            <ol>
+              <li>Create new query in Design View</li>
+              <li>Add Students table</li>
+              <li>Add fields: StudentID, FirstName, LastName, Grade, Email</li>
+              <li>Set criteria for Grade: <code>"11"</code></li>
+              <li>Run the query</li>
+            </ol>
+          </div>
+        </div>
+
+        <p><strong>Steps taken:</strong></p>
+        <textarea class="text-input" name="q3_1_steps" rows="4" placeholder="Describe the steps you followed to create this query..."></textarea>
+      </div>
+
+      <div class="question">
+        <div class="question-number">Question 3.2</div>
+        
+        <div class="practical-task">
+          <h4>🔍 Query 2: Available Books</h4>
+          <p><strong>Task:</strong> Find books with more than 2 copies available</p>
+          
+          <div class="steps">
+            <h5>Steps to follow:</h5>
+            <ol>
+              <li>Create new query in Design View</li>
+              <li>Add Books table</li>
+              <li>Add fields: Title, Author, Genre, CopiesAvailable</li>
+              <li>Set criteria for CopiesAvailable: <code>>2</code></li>
+              <li>Run the query</li>
+            </ol>
+          </div>
+        </div>
+
+        <p><strong>Steps taken:</strong></p>
+        <textarea class="text-input" name="q3_2_steps" rows="4" placeholder="Describe the steps you followed to create this query..."></textarea>
+      </div>
+
+      <div class="question">
+        <div class="question-number">Question 3.3</div>
+        
+        <div class="practical-task">
+          <h4>🔍 Query 3: Student Borrowing Summary</h4>
+          <p><strong>Task:</strong> Find students with their borrowed books using a JOIN</p>
+          
+          <div class="steps">
+            <h5>Steps to follow:</h5>
+            <ol>
+              <li>Create new query in Design View</li>
+              <li>Add Students table</li>
+              <li>Add Borrowings table</li>
+              <li>Add Books table</li>
+              <li>Add fields: FirstName, LastName, Title, BorrowDate, DueDate</li>
+              <li>Run the query</li>
+            </ol>
+          </div>
+        </div>
+
+        <p><strong>Steps taken:</strong></p>
+        <textarea class="text-input" name="q3_3_steps" rows="4" placeholder="Describe the steps you followed to create this query..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin: 30px 0;">
+    <button onclick="submitExam()" style="font-size: 1.2em; padding: 15px 30px;">📝 Submit Assessment</button>
+    <button onclick="window.print()" style="background: #28a745;">🖨️ Print Assessment</button>
+  </div>
+
+  <div id="score"></div>
+
+  <script>
+    let penalty = 0;
+    let timeLeft = 2 * 60 * 60; // 2 hours in seconds
+    let timer;
+
+    // Timer functionality
+    function startTimer() {
+      timer = setInterval(function() {
+        timeLeft--;
+        const hours = Math.floor(timeLeft / 3600);
+        const minutes = Math.floor((timeLeft % 3600) / 60);
+        const seconds = timeLeft % 60;
+        
+        document.getElementById('timer').innerHTML = 
+          `Time: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          alert('Time is up! Submitting assessment automatically.');
+          submitExam();
+        }
+        
+        // Warning when 30 minutes left
+        if (timeLeft === 30 * 60) {
+          alert('⚠️ 30 minutes remaining!');
+        }
+      }, 1000);
+    }
+
+    function showHint(button, hintId) {
+      const hint = document.getElementById(hintId);
+      if (hint.style.display === 'none' || hint.style.display === '') {
+        hint.style.display = 'block';
+        penalty += 2; // subtract 2% per hint
+        button.disabled = true;
+        button.innerHTML = '💡 Hint Used';
+      }
+    }
+
+    function submitExam() {
+      clearInterval(timer);
+      
+      let total = 0;
+      let correct = 0;
+      const questions = document.querySelectorAll('.question[data-answer]');
+
+      questions.forEach((q, index) => {
+        total++;
+        const answer = q.getAttribute('data-answer');
+        const selected = q.querySelector('input[type=radio]:checked');
+        if (selected && selected.value === answer) {
+          correct++;
+        }
+      });
+
+      let score = (correct / total) * 100;
+      score -= penalty; // apply penalty for hints
+
+      if (score < 0) score = 0;
+
+      const scoreDiv = document.getElementById('score');
+      scoreDiv.innerHTML = `
+        <h3>📊 Assessment Results</h3>
+        <p><strong>Your Score:</strong> ${score.toFixed(2)}%</p>
+        <p><strong>Correct Answers:</strong> ${correct}/${total}</p>
+        <p><strong>Hint Penalty:</strong> ${penalty}%</p>
+        <p><strong>Time Remaining:</strong> ${Math.floor(timeLeft / 60)} minutes</p>
+        <hr>
+        <p><em>Note: This is a practice assessment. Your actual marks will be determined by your teacher based on the practical work completed in Microsoft Access.</em></p>
+      `;
+      
+      // Scroll to results
+      scoreDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Start timer when page loads
+    window.onload = function() {
+      startTimer();
+    };
+
+    // Prevent accidental navigation
+    window.onbeforeunload = function() {
+      return "Are you sure you want to leave? Your progress may be lost.";
+    };
+  </script>
+</body>
+</html>

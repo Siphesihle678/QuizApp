@@ -98,6 +98,272 @@
     
     /* Results Styles */
     .results {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+    }
+    
+    /* Enhanced Results Styles */
+    .detailed-results {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    
+    .results-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .summary-item {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid var(--accent);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .summary-label {
+        font-weight: 500;
+        color: #495057;
+    }
+    
+    .summary-value {
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+    
+    .summary-value.correct {
+        color: #28a745;
+    }
+    
+    .summary-value.incorrect {
+        color: #dc3545;
+    }
+    
+    .question-analysis {
+        margin-bottom: 25px;
+    }
+    
+    .question-item {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 4px solid #e9ecef;
+    }
+    
+    .question-item.correct {
+        border-left-color: #28a745;
+        background: #f8fff9;
+    }
+    
+    .question-item.incorrect {
+        border-left-color: #dc3545;
+        background: #fff8f8;
+    }
+    
+    .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .question-status {
+        padding: 4px 8px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+    
+    .question-status.correct {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .question-status.incorrect {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .answer-comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+    
+    .answer-box {
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+    }
+    
+    .answer-box.correct {
+        border-color: #28a745;
+        background: #d4edda;
+    }
+    
+    .answer-box.incorrect {
+        border-color: #dc3545;
+        background: #f8d7da;
+    }
+    
+    .answer-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 0.9em;
+    }
+    
+    .answer-text {
+        color: #495057;
+    }
+    
+    .explanation {
+        background: #e3f2fd;
+        border-left: 4px solid #2196f3;
+        padding: 15px;
+        margin-top: 10px;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .explanation h4 {
+        color: #1976d2;
+        margin-bottom: 8px;
+        font-size: 1em;
+    }
+    
+    .explanation p {
+        color: #424242;
+        margin: 0;
+        line-height: 1.5;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background: var(--accent);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(15, 118, 110, 0.3);
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+    }
+    
+    /* All Questions Review Styles */
+    .all-questions-review {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    
+    .review-controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+    
+    .questions-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+    
+    .review-question {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 4px solid var(--accent);
+    }
+    
+    .review-question h4 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .review-options {
+        margin-bottom: 15px;
+    }
+    
+    .review-option {
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        border: 2px solid #e9ecef;
+    }
+    
+    .review-option.correct {
+        border-color: #28a745;
+        background: #d4edda;
+        font-weight: bold;
+    }
+    
+    .review-option.selected {
+        border-color: var(--accent);
+        background: #e3f2fd;
+    }
+    
+    .review-option.selected.incorrect {
+        border-color: #dc3545;
+        background: #f8d7da;
+    }
+    
+    @media print {
+        .action-buttons, .review-controls {
+            display: none !important;
+        }
+        
+        .container {
+            box-shadow: none;
+            border-radius: 0;
+        }
+        
+        .detailed-results, .all-questions-review {
+            background: white;
+            border-radius: 0;
+        }
+    }
         background: #d4edda;
         border: 1px solid #c3e6cb;
         border-radius: 8px;
@@ -350,7 +616,7 @@
       // Submit to backend
       submitToBackend(quizData);
 
-      // Show final results
+      // Show final results with enhanced details
       document.getElementById('out').innerHTML = `
         <div class='results'>
           <h3>🎉 Quiz Completed!</h3>
@@ -359,8 +625,56 @@
             Time used: ${Math.floor(timeUsed / 60)}:${(timeUsed % 60).toString().padStart(2, '0')}<br>
             Your results have been saved successfully!
           </div>
+          
+          <!-- Enhanced Results Section -->
+          <div class="detailed-results">
+            <h3>📋 Detailed Question Analysis</h3>
+            <div class="results-summary">
+              <div class="summary-item">
+                <span class="summary-label">Total Questions:</span>
+                <span class="summary-value">${answers.length}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Correct Answers:</span>
+                <span class="summary-value correct">${total}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Incorrect Answers:</span>
+                <span class="summary-value incorrect">${answers.length - total}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Time Used:</span>
+                <span class="summary-value">${Math.floor(timeUsed / 60)}:${(timeUsed % 60).toString().padStart(2, '0')}</span>
+              </div>
+            </div>
+            
+            <div class="question-analysis" id="questionAnalysis">
+              <!-- Question analysis will be populated here -->
+            </div>
+            
+            <div class="action-buttons">
+              <button class="btn btn-primary" onclick="showAllQuestions()">📖 View All Questions & Answers</button>
+              <button class="btn btn-secondary" onclick="retakeQuiz()">🔄 Retake Quiz</button>
+              <button class="btn btn-secondary" onclick="downloadResults()">📥 Download Results</button>
+            </div>
+          </div>
+          
+          <!-- All Questions Review Section -->
+          <div class="all-questions-review" id="allQuestionsReview" style="display: none;">
+            <h3>📚 Complete Question Review</h3>
+            <div class="review-controls">
+              <button class="btn btn-secondary" onclick="showDetailedResults()">← Back to Results</button>
+              <button class="btn btn-primary" onclick="printReview()">🖨️ Print Review</button>
+            </div>
+            <div class="questions-container" id="questionsContainer">
+              <!-- All questions with explanations will be populated here -->
+            </div>
+          </div>
         </div>
       `;
+
+      // Generate detailed analysis
+      generateDetailedAnalysis(quizData);
 
       // Disable form
       document.querySelectorAll('#quiz input, #quiz textarea').forEach(input => {
@@ -394,6 +708,205 @@
         submissions.push(quizData);
         localStorage.setItem('excelQuizSubmissions', JSON.stringify(submissions));
       });
+    }
+
+    // Excel Quiz Question Explanations
+    const excelQuestionExplanations = {
+      1: {
+        question: "What is the primary purpose of Excel's SUM function?",
+        correct: "To add up a range of numbers",
+        explanation: "The SUM function is Excel's most basic mathematical function, designed specifically to add up values in a range of cells. It's essential for basic calculations and is used extensively in financial and data analysis."
+      },
+      2: {
+        question: "Which Excel feature allows you to automatically fill data based on a pattern?",
+        correct: "AutoFill",
+        explanation: "AutoFill is Excel's intelligent feature that recognizes patterns in your data and automatically fills adjacent cells. It works with numbers, dates, text, and even custom lists."
+      },
+      3: {
+        question: "What does the AVERAGE function calculate?",
+        correct: "The arithmetic mean of a range of numbers",
+        explanation: "The AVERAGE function calculates the arithmetic mean by summing all values in a range and dividing by the count of values. It's commonly used for statistical analysis and performance metrics."
+      },
+      4: {
+        question: "Which chart type is best for showing trends over time?",
+        correct: "Line chart",
+        explanation: "Line charts are ideal for displaying trends over time because they clearly show how values change continuously. They're perfect for tracking performance, sales, or any time-series data."
+      },
+      5: {
+        question: "What is the purpose of cell references in formulas?",
+        correct: "To refer to data in other cells",
+        explanation: "Cell references allow formulas to dynamically use data from other cells. This makes spreadsheets flexible and reusable, as changing input values automatically updates calculated results."
+      },
+      6: {
+        question: "Which function counts the number of cells containing numbers?",
+        correct: "COUNT",
+        explanation: "The COUNT function specifically counts cells that contain numeric values. It's useful for determining how many data points you have in a dataset."
+      },
+      7: {
+        question: "What does the MAX function return?",
+        correct: "The highest value in a range",
+        explanation: "The MAX function identifies the highest (largest) value in a specified range. It's commonly used in data analysis to find peak values or best performance metrics."
+      },
+      8: {
+        question: "Which Excel feature helps prevent data entry errors?",
+        correct: "Data validation",
+        explanation: "Data validation allows you to set rules for what can be entered in cells, helping maintain data integrity and preventing common input errors."
+      },
+      9: {
+        question: "What is the purpose of conditional formatting?",
+        correct: "To highlight cells based on their values",
+        explanation: "Conditional formatting automatically applies formatting (colors, icons, bars) to cells based on their values or formulas. It makes it easy to spot trends, outliers, and important data."
+      },
+      10: {
+        question: "Which function finds the position of a value in a range?",
+        correct: "MATCH",
+        explanation: "The MATCH function returns the relative position of an item in a range. It's often used with INDEX to create powerful lookup formulas."
+      }
+    };
+
+    function generateDetailedAnalysis(quizData) {
+      const questionAnalysis = document.getElementById('questionAnalysis');
+      questionAnalysis.innerHTML = '';
+
+      // Create analysis for each question
+      for (let i = 1; i <= answers.length; i++) {
+        const studentAnswer = document.getElementById(`q${i}`).value.trim();
+        const correctAnswer = answers[i - 1];
+        const isCorrect = studentAnswer.toLowerCase() === correctAnswer.toLowerCase();
+        const explanation = excelQuestionExplanations[i];
+
+        const questionItem = document.createElement('div');
+        questionItem.className = `question-item ${isCorrect ? 'correct' : 'incorrect'}`;
+        
+        questionItem.innerHTML = `
+          <div class="question-header">
+            <span class="question-number">Question ${i}</span>
+            <span class="question-status ${isCorrect ? 'correct' : 'incorrect'}">
+              ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+            </span>
+          </div>
+          <div class="question-text">${explanation.question}</div>
+          <div class="answer-comparison">
+            <div class="answer-box ${isCorrect ? 'correct' : 'incorrect'}">
+              <div class="answer-label">Your Answer:</div>
+              <div class="answer-text">${studentAnswer || 'Not answered'}</div>
+            </div>
+            <div class="answer-box correct">
+              <div class="answer-label">Correct Answer:</div>
+              <div class="answer-text">${explanation.correct}</div>
+            </div>
+          </div>
+          <div class="explanation">
+            <h4>💡 Explanation:</h4>
+            <p>${explanation.explanation}</p>
+          </div>
+        `;
+
+        questionAnalysis.appendChild(questionItem);
+      }
+    }
+
+    function showAllQuestions() {
+      document.querySelector('.detailed-results').style.display = 'none';
+      document.getElementById('allQuestionsReview').style.display = 'block';
+      
+      const questionsContainer = document.getElementById('questionsContainer');
+      questionsContainer.innerHTML = '';
+
+      // Create review for each question
+      for (let i = 1; i <= answers.length; i++) {
+        const studentAnswer = document.getElementById(`q${i}`).value.trim();
+        const correctAnswer = answers[i - 1];
+        const isCorrect = studentAnswer.toLowerCase() === correctAnswer.toLowerCase();
+        const explanation = excelQuestionExplanations[i];
+
+        const reviewQuestion = document.createElement('div');
+        reviewQuestion.className = 'review-question';
+        
+        reviewQuestion.innerHTML = `
+          <h4>
+            <span class="question-number">Question ${i}</span>
+            <span class="question-status ${isCorrect ? 'correct' : 'incorrect'}">
+              ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+            </span>
+          </h4>
+          <div class="question-text">${explanation.question}</div>
+          <div class="answer-comparison">
+            <div class="answer-box ${isCorrect ? 'correct' : 'incorrect'}">
+              <div class="answer-label">Your Answer:</div>
+              <div class="answer-text">${studentAnswer || 'Not answered'}</div>
+            </div>
+            <div class="answer-box correct">
+              <div class="answer-label">Correct Answer:</div>
+              <div class="answer-text">${explanation.correct}</div>
+            </div>
+          </div>
+          <div class="explanation">
+            <h4>💡 Explanation:</h4>
+            <p>${explanation.explanation}</p>
+          </div>
+        `;
+
+        questionsContainer.appendChild(reviewQuestion);
+      }
+    }
+
+    function showDetailedResults() {
+      document.getElementById('allQuestionsReview').style.display = 'none';
+      document.querySelector('.detailed-results').style.display = 'block';
+    }
+
+    function retakeQuiz() {
+      // Reset form
+      document.getElementById('quiz').reset();
+      
+      // Reset timer
+      startTime = Date.now();
+      updateTimer();
+      
+      // Show quiz form
+      document.getElementById('quiz').style.display = 'block';
+      document.querySelector('.student-info').style.display = 'block';
+      document.querySelector('.timer').style.display = 'block';
+      
+      // Hide results
+      document.getElementById('out').innerHTML = '';
+      
+      // Enable form
+      document.querySelectorAll('#quiz input, #quiz textarea').forEach(input => {
+        input.disabled = false;
+      });
+      document.getElementById('check').disabled = false;
+      document.getElementById('submit').style.display = 'none';
+      
+      // Start timer
+      startTimer();
+    }
+
+    function downloadResults() {
+      const quizData = {
+        studentName: document.getElementById('studentName').value,
+        studentEmail: document.getElementById('studentEmail').value,
+        studentGrade: document.getElementById('studentGrade').value,
+        score: document.querySelector('.score-display').textContent,
+        date: new Date().toLocaleDateString(),
+        time: document.querySelector('.summary-value:last-child').textContent
+      };
+
+      const dataStr = JSON.stringify(quizData, null, 2);
+      const dataBlob = new Blob([dataStr], {type: 'application/json'});
+      const url = URL.createObjectURL(dataBlob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `excel_quiz_results_${quizData.studentName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
+      link.click();
+      
+      URL.revokeObjectURL(url);
+    }
+
+    function printReview() {
+      window.print();
     }
   </script>
 </body>

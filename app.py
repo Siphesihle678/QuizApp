@@ -226,6 +226,12 @@ def index():
                     <p>Comprehensive Excel study guide covering functions, formulas, and practical examples. Perfect for Excel quiz preparation.</p>
                     <a href="/excel-notes" class="btn btn-excel">View Excel Notes</a>
                 </div>
+                
+                <div class="card">
+                    <h3>📋 Database Assessment</h3>
+                    <p>Complete the comprehensive 2-hour database assessment covering fundamentals, design principles, and practical query creation in Microsoft Access.</p>
+                    <a href="/database-assessment" class="btn btn-secondary">Start Assessment</a>
+                </div>
             </div>
 
             <div class="features">
@@ -635,6 +641,18 @@ def excel_notes():
     except Exception as e:
         return f"Error loading excel notes: {str(e)}", 500
     return excel_notes_html
+
+@app.route('/database-assessment')
+def database_assessment():
+    # Serve the enhanced database assessment HTML file
+    try:
+        with open('CAT_Grade11_Database_Assessment_Enhanced.html', 'r', encoding='utf-8') as f:
+            assessment_html = f.read()
+    except FileNotFoundError:
+        return "Database assessment file not found. Please check if CAT_Grade11_Database_Assessment_Enhanced.html exists.", 404
+    except Exception as e:
+        return f"Error loading database assessment: {str(e)}", 500
+    return assessment_html
 
 @app.route('/api/submit', methods=['POST'])
 def submit_quiz():
